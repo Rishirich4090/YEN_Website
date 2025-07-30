@@ -29,8 +29,7 @@
 ### Option B: MongoDB Atlas (Recommended)
 1. Create account at [MongoDB Atlas](https://mongodb.com/atlas)
 2. Create a free cluster
-3. Get connection string: `mongodb+srv://username:password@cluster.mongodb.net/hopehands`
-
+3. Get connection string: 
 ---
 
 ## Step 2: Email Configuration
