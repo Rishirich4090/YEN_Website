@@ -110,27 +110,27 @@ export default function Projects() {
       value: "water",
       label: "Clean Water",
       icon: Droplets,
-      color: "bg-blue-500",
+      color: "bg-ngo-purple",
     },
     {
       value: "education",
       label: "Education",
       icon: GraduationCap,
-      color: "bg-purple-500",
+      color: "bg-ngo-purple-light",
     },
-    { value: "housing", label: "Housing", icon: Home, color: "bg-orange-500" },
+    { value: "housing", label: "Housing", icon: Home, color: "bg-ngo-pink" },
     {
       value: "healthcare",
       label: "Healthcare",
       icon: Stethoscope,
-      color: "bg-red-500",
+      color: "bg-destructive",
     },
-    { value: "energy", label: "Energy", icon: Zap, color: "bg-yellow-500" },
+    { value: "energy", label: "Energy", icon: Zap, color: "bg-ngo-pink-light" },
     {
       value: "community",
       label: "Community Dev",
       icon: Heart,
-      color: "bg-pink-500",
+      color: "bg-ngo-pink",
     },
   ];
 
@@ -422,13 +422,13 @@ export default function Projects() {
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case "completed":
-        return "bg-green-500";
+        return "bg-ngo-purple";
       case "ongoing":
-        return "bg-blue-500";
+        return "bg-ngo-purple";
       case "planned":
-        return "bg-orange-500";
+        return "bg-ngo-pink";
       default:
-        return "bg-gray-500";
+        return "bg-muted-foreground";
     }
   };
 

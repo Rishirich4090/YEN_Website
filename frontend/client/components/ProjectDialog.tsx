@@ -108,13 +108,13 @@ export default function ProjectDialog({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-500";
+        return "bg-ngo-purple";
       case "ongoing":
-        return "bg-blue-500";
+        return "bg-ngo-pink";
       case "planned":
-        return "bg-orange-500";
+        return "bg-ngo-pink";
       default:
-        return "bg-gray-500";
+        return "bg-muted-foreground";
     }
   };
 
@@ -311,8 +311,8 @@ export default function ProjectDialog({
                           <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-3">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-                                  <Gift className="h-4 w-4 text-green-600" />
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-ngo-purple-light">
+                                  <Gift className="h-4 w-4 text-ngo-purple" />
                                 </div>
                                 <div>
                                   <p className="font-medium">
@@ -336,7 +336,7 @@ export default function ProjectDialog({
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="font-semibold text-green-600">
+                                <p className="font-semibold text-ngo-purple">
                                   {formatAmount(donation.amount)}
                                 </p>
                                 <div className="flex space-x-1">

@@ -4,102 +4,102 @@
 
 @layer base {
   /**
-   * HopeHands Green-Yellow Theme
-   * Using 3 shades of green and 3 shades of yellow for a vibrant, nature-inspired design
-   * Green represents growth and hope, Yellow represents sunshine and positivity
+   * HopeHands Purple-Pink Theme
+   * Using specified color palette: #7F55B1, #9B7EBD, #F49BAB, #FFE1E0
+   * Purple represents trust and wisdom, Pink represents compassion and care
    */
   :root {
     /* Base colors */
-    --background: 60 100% 99%; /* Very light yellow-white */
-    --foreground: 140 90% 8%; /* Deep forest green */
+    --background: 350 100% 98%; /* Very light pink-white #FFE1E0 */
+    --foreground: 263 35% 25%; /* Deep purple from #7F55B1 */
 
     /* Card backgrounds */
-    --card: 58 100% 99%; /* Almost white with yellow tint */
-    --card-foreground: 142 85% 12%; /* Dark green */
+    --card: 350 100% 98%; /* Light pink background #FFE1E0 */
+    --card-foreground: 263 35% 25%; /* Dark purple text */
 
     /* Popover colors */
-    --popover: 60 100% 99%;
-    --popover-foreground: 140 85% 15%;
+    --popover: 350 100% 98%;
+    --popover-foreground: 263 35% 25%;
 
-    /* Primary colors - Green shades (3 shades) */
-    --primary: 142 76% 36%; /* Medium forest green (Shade 1) */
-    --primary-foreground: 60 100% 98%; /* Light yellow-white */
+    /* Primary colors - Purple shades */
+    --primary: 263 35% 52%; /* Primary purple #7F55B1 */
+    --primary-foreground: 350 100% 98%; /* Light pink text */
 
-    /* Secondary colors - Yellow shades (3 shades) */
-    --secondary: 48 96% 89%; /* Light golden yellow (Shade 1) */
-    --secondary-foreground: 145 85% 20%; /* Dark green */
+    /* Secondary colors - Light purple */
+    --secondary: 272 35% 68%; /* Light purple #9B7EBD */
+    --secondary-foreground: 263 35% 25%; /* Dark purple */
 
-    /* Muted colors - Light green/yellow mix */
-    --muted: 55 80% 94%; /* Very light yellow-green (Shade 2) */
-    --muted-foreground: 125 25% 45%; /* Muted green */
+    /* Muted colors - Light pink mix */
+    --muted: 350 75% 94%; /* Very light pink */
+    --muted-foreground: 272 25% 45%; /* Muted purple */
 
-    /* Accent colors - Bright yellow (Shade 2) */
-    --accent: 45 93% 85%; /* Bright light yellow */
-    --accent-foreground: 150 90% 25%; /* Rich green (Shade 2) */
+    /* Accent colors - Pink */
+    --accent: 344 77% 76%; /* Primary pink #F49BAB */
+    --accent-foreground: 263 35% 25%; /* Dark purple text */
 
     /* Destructive (keep red for errors) */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 350 100% 98%;
 
     /* Borders and inputs */
-    --border: 50 60% 88%; /* Light yellow-green border */
-    --input: 52 50% 90%; /* Soft yellow input background (Shade 3) */
-    --ring: 142 76% 36%; /* Green focus ring */
+    --border: 350 60% 88%; /* Light pink border */
+    --input: 350 50% 92%; /* Soft pink input background */
+    --ring: 263 35% 52%; /* Purple focus ring */
 
     --radius: 0.75rem;
 
     /* Sidebar colors */
-    --sidebar-background: 58 90% 96%; /* Light yellow background */
-    --sidebar-foreground: 135 80% 20%; /* Dark green text (Shade 3) */
-    --sidebar-primary: 45 95% 45%; /* Golden yellow (Shade 2) */
-    --sidebar-primary-foreground: 150 100% 15%; /* Very dark green */
-    --sidebar-accent: 50 85% 92%; /* Very light yellow (Shade 3) */
-    --sidebar-accent-foreground: 140 70% 25%; /* Medium green */
-    --sidebar-border: 55 40% 85%; /* Subtle yellow border */
-    --sidebar-ring: 142 76% 36%; /* Green ring */
+    --sidebar-background: 350 90% 96%; /* Light pink background */
+    --sidebar-foreground: 263 35% 25%; /* Dark purple text */
+    --sidebar-primary: 344 77% 76%; /* Pink primary */
+    --sidebar-primary-foreground: 263 35% 25%; /* Dark purple */
+    --sidebar-accent: 350 85% 94%; /* Very light pink */
+    --sidebar-accent-foreground: 272 35% 35%; /* Medium purple */
+    --sidebar-border: 350 40% 85%; /* Subtle pink border */
+    --sidebar-ring: 263 35% 52%; /* Purple ring */
   }
 
   .dark {
-    /* Dark theme with green-yellow combinations */
-    --background: 140 20% 8%; /* Dark forest green */
-    --foreground: 50 90% 92%; /* Light yellow */
+    /* Dark theme with purple-pink combinations */
+    --background: 263 25% 8%; /* Dark purple */
+    --foreground: 350 90% 92%; /* Light pink */
 
-    --card: 135 25% 10%; /* Dark green card */
-    --card-foreground: 55 85% 90%; /* Light yellow text */
+    --card: 263 25% 10%; /* Dark purple card */
+    --card-foreground: 350 85% 90%; /* Light pink text */
 
-    --popover: 138 22% 9%;
-    --popover-foreground: 52 88% 88%;
+    --popover: 263 22% 9%;
+    --popover-foreground: 350 88% 88%;
 
-    /* Dark primary - Brighter green (Shade 1) */
-    --primary: 120 80% 50%; /* Bright green */
-    --primary-foreground: 140 30% 8%; /* Dark green */
+    /* Dark primary - Brighter purple */
+    --primary: 263 50% 60%; /* Bright purple */
+    --primary-foreground: 263 30% 8%; /* Dark purple */
 
-    /* Dark secondary - Muted yellow (Shade 1) */
-    --secondary: 40 30% 20%; /* Dark yellow-brown */
-    --secondary-foreground: 65 90% 85%; /* Light yellow */
+    /* Dark secondary - Muted pink */
+    --secondary: 344 30% 20%; /* Dark pink-brown */
+    --secondary-foreground: 350 90% 85%; /* Light pink */
 
-    --muted: 135 20% 15%; /* Dark muted green (Shade 2) */
-    --muted-foreground: 50 40% 65%; /* Muted yellow */
+    --muted: 263 20% 15%; /* Dark muted purple */
+    --muted-foreground: 350 40% 65%; /* Muted pink */
 
-    --accent: 45 60% 25%; /* Dark golden (Shade 2) */
-    --accent-foreground: 120 60% 80%; /* Light green */
+    --accent: 344 60% 45%; /* Dark pink */
+    --accent-foreground: 263 60% 80%; /* Light purple */
 
     --destructive: 0 75% 55%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 350 40% 98%;
 
-    --border: 130 20% 18%; /* Dark green border */
-    --input: 135 15% 16%; /* Dark input (Shade 3) */
-    --ring: 120 80% 50%; /* Bright green ring */
+    --border: 263 20% 18%; /* Dark purple border */
+    --input: 263 15% 16%; /* Dark input */
+    --ring: 263 80% 60%; /* Bright purple ring */
 
     /* Dark sidebar */
-    --sidebar-background: 138 25% 6%; /* Very dark green */
-    --sidebar-foreground: 50 70% 80%; /* Light yellow (Shade 3) */
-    --sidebar-primary: 50 85% 60%; /* Bright yellow */
-    --sidebar-primary-foreground: 140 90% 10%; /* Very dark green */
-    --sidebar-accent: 135 20% 12%; /* Dark green accent */
-    --sidebar-accent-foreground: 55 75% 75%; /* Light yellow */
-    --sidebar-border: 130 15% 15%; /* Dark border */
-    --sidebar-ring: 120 80% 50%; /* Green ring */
+    --sidebar-background: 263 25% 6%; /* Very dark purple */
+    --sidebar-foreground: 350 70% 80%; /* Light pink */
+    --sidebar-primary: 344 85% 70%; /* Bright pink */
+    --sidebar-primary-foreground: 263 90% 10%; /* Very dark purple */
+    --sidebar-accent: 263 20% 12%; /* Dark purple accent */
+    --sidebar-accent-foreground: 350 75% 75%; /* Light pink */
+    --sidebar-border: 263 15% 15%; /* Dark border */
+    --sidebar-ring: 263 80% 60%; /* Purple ring */
   }
 }
 
@@ -150,25 +150,29 @@
 }
 
 @layer components {
-  /* Custom gradient backgrounds with green-yellow theme */
-  .bg-gradient-yellow-green {
-    background: linear-gradient(135deg, hsl(45 95% 70%), hsl(120 70% 45%));
+  /* Custom gradient backgrounds with purple-pink theme */
+  .bg-gradient-purple-pink {
+    background: linear-gradient(135deg, #7F55B1, #F49BAB);
   }
 
-  .bg-gradient-green-yellow {
-    background: linear-gradient(135deg, hsl(140 80% 40%), hsl(50 90% 60%));
+  .bg-gradient-pink-purple {
+    background: linear-gradient(135deg, #F49BAB, #9B7EBD);
   }
 
-  /* Custom shadow with green-yellow theme colors */
+  .bg-gradient-light-theme {
+    background: linear-gradient(135deg, #FFE1E0, #9B7EBD);
+  }
+
+  /* Custom shadow with purple-pink theme colors */
   .shadow-theme {
     box-shadow:
-      0 4px 6px -1px hsl(120 70% 45% / 0.1),
-      0 2px 4px -1px hsl(45 90% 50% / 0.06);
+      0 4px 6px -1px hsl(263 35% 52% / 0.1),
+      0 2px 4px -1px hsl(344 77% 76% / 0.06);
   }
 
-  /* Animated gradient text with green-yellow theme */
+  /* Animated gradient text with purple-pink theme */
   .text-gradient-animated {
-    @apply bg-gradient-to-r from-green-600 via-yellow-500 to-green-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-600 via-pink-500 to-purple-500 bg-clip-text text-transparent;
     background-size: 200% 200%;
     animation: gradient-shift 3s ease-in-out infinite;
   }
@@ -183,13 +187,13 @@
     }
   }
 
-  /* Helping hand theme classes */
+  /* Helping hand theme classes with new colors */
   .bg-helping-hands {
-    background: linear-gradient(135deg, hsl(120 70% 45%), hsl(45 95% 70%), hsl(140 80% 40%));
+    background: linear-gradient(135deg, #7F55B1, #F49BAB, #9B7EBD);
   }
 
   .text-helping-hands {
-    @apply bg-gradient-to-r from-green-500 via-yellow-500 to-green-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-600 via-pink-500 to-purple-500 bg-clip-text text-transparent;
   }
 
   /* Hover effects for login/join buttons */
@@ -199,55 +203,58 @@
 
   .btn-hover-glow:hover {
     @apply transform scale-105 shadow-lg;
-    box-shadow: 0 10px 25px -5px hsl(120 70% 45% / 0.4), 0 10px 10px -5px hsl(45 90% 50% / 0.2);
+    box-shadow: 0 10px 25px -5px hsl(263 35% 52% / 0.4), 0 10px 10px -5px hsl(344 77% 76% / 0.2);
   }
 
-  .btn-hover-yellow {
+  .btn-hover-pink {
     @apply transition-all duration-300 ease-in-out;
   }
 
-  .btn-hover-yellow:hover {
-    @apply transform scale-105 bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg;
-    box-shadow: 0 10px 25px -5px hsl(45 90% 50% / 0.4);
+  .btn-hover-pink:hover {
+    @apply transform scale-105 shadow-lg;
+    background: linear-gradient(135deg, #F49BAB, #FFE1E0);
+    box-shadow: 0 10px 25px -5px hsl(344 77% 76% / 0.4);
   }
 
   /* Navigation button hover effects */
-  .nav-hover-green {
+  .nav-hover-purple {
     @apply transition-all duration-300 ease-in-out relative;
   }
 
-  .nav-hover-green:hover {
+  .nav-hover-purple:hover {
     @apply transform scale-110 text-primary;
-    text-shadow: 0 0 8px hsl(120 70% 45% / 0.6);
-    box-shadow: 0 8px 20px -5px hsl(120 70% 45% / 0.3);
+    text-shadow: 0 0 8px hsl(263 35% 52% / 0.6);
+    box-shadow: 0 8px 20px -5px hsl(263 35% 52% / 0.3);
   }
 
-  .nav-hover-green::after {
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-500 to-yellow-400 transition-all duration-300;
+  .nav-hover-purple::after {
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300;
     content: '';
+    background: linear-gradient(135deg, #7F55B1, #F49BAB);
   }
 
-  .nav-hover-green:hover::after {
+  .nav-hover-purple:hover::after {
     @apply w-full;
   }
 
-  .nav-hover-yellow {
+  .nav-hover-pink {
     @apply transition-all duration-300 ease-in-out relative;
   }
 
-  .nav-hover-yellow:hover {
+  .nav-hover-pink:hover {
     @apply transform scale-110;
-    color: hsl(45 95% 45%);
-    text-shadow: 0 0 8px hsl(45 95% 45% / 0.6);
-    box-shadow: 0 8px 20px -5px hsl(45 95% 45% / 0.3);
+    color: #F49BAB;
+    text-shadow: 0 0 8px hsl(344 77% 76% / 0.6);
+    box-shadow: 0 8px 20px -5px hsl(344 77% 76% / 0.3);
   }
 
-  .nav-hover-yellow::after {
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-400 to-green-500 transition-all duration-300;
+  .nav-hover-pink::after {
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300;
     content: '';
+    background: linear-gradient(135deg, #F49BAB, #7F55B1);
   }
 
-  .nav-hover-yellow:hover::after {
+  .nav-hover-pink:hover::after {
     @apply w-full;
   }
 
@@ -257,8 +264,8 @@
 
   .nav-hover-primary:hover {
     @apply transform scale-110 text-primary;
-    text-shadow: 0 0 10px hsl(142 76% 36% / 0.7);
-    box-shadow: 0 8px 20px -5px hsl(142 76% 36% / 0.4);
+    text-shadow: 0 0 10px hsl(263 35% 52% / 0.7);
+    box-shadow: 0 8px 20px -5px hsl(263 35% 52% / 0.4);
   }
 
   .nav-hover-primary::after {
@@ -277,33 +284,82 @@
 
   .logo-hover:hover {
     @apply transform scale-110;
-    filter: drop-shadow(0 0 15px hsl(120 70% 45% / 0.5)) drop-shadow(0 0 25px hsl(45 90% 50% / 0.3));
+    filter: drop-shadow(0 0 15px hsl(263 35% 52% / 0.5)) drop-shadow(0 0 25px hsl(344 77% 76% / 0.3));
   }
 
   /* Pulse effect for active states */
-  .pulse-green {
-    animation: pulse-green 2s infinite;
+  .pulse-purple {
+    animation: pulse-purple 2s infinite;
   }
 
-  @keyframes pulse-green {
+  @keyframes pulse-purple {
     0%, 100% {
-      box-shadow: 0 0 0 0 hsl(120 70% 45% / 0.7);
+      box-shadow: 0 0 0 0 hsl(263 35% 52% / 0.7);
     }
     50% {
-      box-shadow: 0 0 0 10px hsl(120 70% 45% / 0);
+      box-shadow: 0 0 0 10px hsl(263 35% 52% / 0);
     }
   }
 
-  .pulse-yellow {
-    animation: pulse-yellow 2s infinite;
+  .pulse-pink {
+    animation: pulse-pink 2s infinite;
   }
 
-  @keyframes pulse-yellow {
+  @keyframes pulse-pink {
     0%, 100% {
-      box-shadow: 0 0 0 0 hsl(45 90% 50% / 0.7);
+      box-shadow: 0 0 0 0 hsl(344 77% 76% / 0.7);
     }
     50% {
-      box-shadow: 0 0 0 10px hsl(45 90% 50% / 0);
+      box-shadow: 0 0 0 10px hsl(344 77% 76% / 0);
     }
+  }
+
+  /* NGO Custom Classes for Specific Color Usage */
+  .bg-ngo-purple {
+    background-color: #7F55B1;
+  }
+
+  .bg-ngo-purple-light {
+    background-color: #9B7EBD;
+  }
+
+  .bg-ngo-pink {
+    background-color: #F49BAB;
+  }
+
+  .bg-ngo-pink-light {
+    background-color: #FFE1E0;
+  }
+
+  .text-ngo-purple {
+    color: #7F55B1;
+  }
+
+  .text-ngo-purple-light {
+    color: #9B7EBD;
+  }
+
+  .text-ngo-pink {
+    color: #F49BAB;
+  }
+
+  .text-ngo-pink-light {
+    color: #FFE1E0;
+  }
+
+  .border-ngo-purple {
+    border-color: #7F55B1;
+  }
+
+  .border-ngo-purple-light {
+    border-color: #9B7EBD;
+  }
+
+  .border-ngo-pink {
+    border-color: #F49BAB;
+  }
+
+  .border-ngo-pink-light {
+    border-color: #FFE1E0;
   }
 }

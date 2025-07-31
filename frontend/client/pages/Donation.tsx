@@ -617,8 +617,8 @@ export default function Donation() {
               <DialogHeader>
                 <DialogTitle className="text-center">
                   <div className="flex justify-center mb-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                      <CheckCircle className="h-8 w-8 text-green-600" />
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-ngo-purple-light">
+                      <CheckCircle className="h-8 w-8 text-ngo-purple" />
                     </div>
                   </div>
                   Thank You for Your Donation!
@@ -637,15 +637,15 @@ export default function Donation() {
                   </div>
 
                   {completedDonation.memberAccountCreated && (
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="p-4 bg-ngo-pink-light border border-ngo-pink rounded-lg">
                       <div className="flex items-center space-x-2 mb-3">
-                        <UserPlus className="h-5 w-5 text-blue-600" />
-                        <span className="font-semibold text-blue-800">Member Account Created!</span>
+                        <UserPlus className="h-5 w-5 text-ngo-purple" />
+                        <span className="font-semibold text-ngo-purple">Member Account Created!</span>
                       </div>
                       <div className="space-y-2 text-sm">
                         <p><strong>Member ID:</strong> {completedDonation.memberId}</p>
                         <p><strong>Password:</strong> {completedDonation.memberPassword}</p>
-                        <p className="text-blue-700">
+                        <p className="text-ngo-purple-light">
                           You can now login to connect with other members!
                         </p>
                       </div>

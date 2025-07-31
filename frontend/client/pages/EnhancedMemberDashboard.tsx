@@ -263,7 +263,7 @@ export default function EnhancedMemberDashboard() {
                 <span>Member ID: {memberData.id} • Status:</span>
                 <Badge
                   variant="secondary"
-                  className="bg-green-100 text-green-800"
+                  className="bg-ngo-purple-light text-ngo-purple"
                 >
                   Active Member
                 </Badge>
@@ -388,7 +388,7 @@ export default function EnhancedMemberDashboard() {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex items-start space-x-3">
-                        <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                        <CheckCircle className="h-5 w-5 text-ngo-purple mt-0.5" />
                         <div>
                           <p className="text-sm font-medium">
                             Certificate Generated
@@ -410,7 +410,7 @@ export default function EnhancedMemberDashboard() {
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <MessageCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+                        <MessageCircle className="h-5 w-5 text-ngo-pink mt-0.5" />
                         <div>
                           <p className="text-sm font-medium">New Messages</p>
                           <p className="text-xs text-muted-foreground">
@@ -623,8 +623,8 @@ export default function EnhancedMemberDashboard() {
                           key={donation.id}
                           className="flex items-center space-x-3 text-sm"
                         >
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
-                            <Gift className="h-3 w-3 text-green-600" />
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ngo-purple-light">
+                            <Gift className="h-3 w-3 text-ngo-purple" />
                           </div>
                           <div className="flex-1">
                             <p>
@@ -685,8 +685,8 @@ export default function EnhancedMemberDashboard() {
                           <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-4">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                                  <Gift className="h-5 w-5 text-green-600" />
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ngo-purple-light">
+                                  <Gift className="h-5 w-5 text-ngo-purple" />
                                 </div>
                                 <div>
                                   <h3 className="font-semibold">
@@ -848,7 +848,7 @@ export default function EnhancedMemberDashboard() {
 
                     {/* Online Members */}
                     <div className="space-y-4">
-                      <h3 className="text-sm font-semibold text-green-600 flex items-center gap-2">
+                      <h3 className="text-sm font-semibold text-ngo-purple flex items-center gap-2">
                         <Circle className="h-2 w-2 fill-green-600" />
                         Online Members (
                         {memberService.getOnlineMembers().length})
@@ -872,7 +872,7 @@ export default function EnhancedMemberDashboard() {
                                         .join("")}
                                     </AvatarFallback>
                                   </Avatar>
-                                  <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-background" />
+                                  <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-ngo-pink-light0 rounded-full border-2 border-background" />
                                 </div>
                                 <div>
                                   <p className="font-medium">{member.name}</p>
@@ -966,9 +966,9 @@ export default function EnhancedMemberDashboard() {
                           key={message.id}
                           className={`flex items-start space-x-3 ${
                             message.type === "announcement"
-                              ? "bg-blue-50 p-3 rounded-lg border border-blue-200"
+                              ? "bg-ngo-pink-light p-3 rounded-lg border border-ngo-pink"
                               : message.type === "system"
-                                ? "bg-gray-50 p-3 rounded-lg border border-gray-200"
+                                ? "bg-muted p-3 rounded-lg border border-border"
                                 : ""
                           }`}
                         >
@@ -986,8 +986,8 @@ export default function EnhancedMemberDashboard() {
                               <span
                                 className={`text-sm font-semibold ${
                                   message.userRole === "admin"
-                                    ? "text-blue-600"
-                                    : "text-gray-900"
+                                    ? "text-ngo-pink"
+                                    : "text-foreground"
                                 }`}
                               >
                                 {message.user}
@@ -1007,10 +1007,10 @@ export default function EnhancedMemberDashboard() {
                             <p
                               className={`text-sm ${
                                 message.type === "announcement"
-                                  ? "font-medium text-blue-800"
+                                  ? "font-medium text-ngo-purple"
                                   : message.type === "system"
-                                    ? "italic text-gray-600"
-                                    : "text-gray-900"
+                                    ? "italic text-muted-foreground"
+                                    : "text-foreground"
                               }`}
                             >
                               {message.message}
@@ -1080,7 +1080,7 @@ export default function EnhancedMemberDashboard() {
                                     </AvatarFallback>
                                   </Avatar>
                                   {otherUser.isOnline && (
-                                    <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-background" />
+                                    <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-ngo-pink-light0 rounded-full border-2 border-background" />
                                   )}
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -1133,7 +1133,7 @@ export default function EnhancedMemberDashboard() {
                               </AvatarFallback>
                             </Avatar>
                             {selectedMember.isOnline && (
-                              <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-background" />
+                              <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-ngo-pink-light0 rounded-full border-2 border-background" />
                             )}
                           </div>
                           <div>
@@ -1380,16 +1380,16 @@ export default function EnhancedMemberDashboard() {
                             Total Donated
                           </p>
                         </div>
-                        <div className="text-center p-4 bg-green-50 rounded-lg">
-                          <div className="text-2xl font-bold text-green-600">
+                        <div className="text-center p-4 bg-ngo-pink-light rounded-lg">
+                          <div className="text-2xl font-bold text-ngo-purple">
                             {userDonations.length}
                           </div>
                           <p className="text-sm text-muted-foreground mt-1">
                             Total Donations
                           </p>
                         </div>
-                        <div className="text-center p-4 bg-blue-50 rounded-lg">
-                          <div className="text-2xl font-bold text-blue-600">
+                        <div className="text-center p-4 bg-ngo-pink-light rounded-lg">
+                          <div className="text-2xl font-bold text-ngo-pink">
                             {
                               userDonations.filter(
                                 (d) => d.certificateGenerated,
@@ -1409,8 +1409,8 @@ export default function EnhancedMemberDashboard() {
                             className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors"
                           >
                             <div className="flex items-center space-x-3">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-                                <Gift className="h-4 w-4 text-green-600" />
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-ngo-purple-light">
+                                <Gift className="h-4 w-4 text-ngo-purple" />
                               </div>
                               <div>
                                 <p className="font-medium">

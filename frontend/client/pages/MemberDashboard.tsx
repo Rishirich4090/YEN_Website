@@ -251,7 +251,7 @@ export default function MemberDashboard() {
               <h1 className="text-3xl font-bold">Welcome back, {memberData.name}!</h1>
               <div className="text-muted-foreground flex items-center gap-2">
                 <span>Member ID: {memberData.id} • Status:</span>
-                <Badge variant="secondary" className="bg-green-100 text-green-800">Active Member</Badge>
+                <Badge variant="secondary" className="bg-ngo-purple-light text-ngo-purple">Active Member</Badge>
               </div>
             </div>
             <Button variant="outline" onClick={handleLogout}>
@@ -344,7 +344,7 @@ export default function MemberDashboard() {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex items-start space-x-3">
-                        <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                        <CheckCircle className="h-5 w-5 text-ngo-purple mt-0.5" />
                         <div>
                           <p className="text-sm font-medium">Certificate Generated</p>
                           <p className="text-xs text-muted-foreground">Your membership certificate is ready for download</p>
@@ -358,7 +358,7 @@ export default function MemberDashboard() {
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <MessageCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+                        <MessageCircle className="h-5 w-5 text-ngo-pink mt-0.5" />
                         <div>
                           <p className="text-sm font-medium">New Chat Messages</p>
                           <p className="text-xs text-muted-foreground">3 new messages in member chat</p>
@@ -458,8 +458,8 @@ export default function MemberDashboard() {
                     <div className="space-y-4">
                       {chatMessages.map((message) => (
                         <div key={message.id} className={`flex items-start space-x-3 ${
-                          message.type === 'announcement' ? 'bg-blue-50 p-3 rounded-lg border border-blue-200' :
-                          message.type === 'system' ? 'bg-gray-50 p-3 rounded-lg border border-gray-200' : ''
+                          message.type === 'announcement' ? 'bg-ngo-pink-light p-3 rounded-lg border border-ngo-pink' :
+                          message.type === 'system' ? 'bg-muted p-3 rounded-lg border border-border' : ''
                         }`}>
                           <Avatar className="h-8 w-8">
                             <AvatarImage src={message.avatar} />
@@ -468,7 +468,7 @@ export default function MemberDashboard() {
                           <div className="flex-1 space-y-1">
                             <div className="flex items-center space-x-2">
                               <span className={`text-sm font-semibold ${
-                                message.userRole === 'admin' ? 'text-blue-600' : 'text-gray-900'
+                                message.userRole === 'admin' ? 'text-ngo-pink' : 'text-foreground'
                               }`}>
                                 {message.user}
                                 {message.userRole === 'admin' && (
@@ -478,8 +478,8 @@ export default function MemberDashboard() {
                               <span className="text-xs text-muted-foreground">{message.timestamp}</span>
                             </div>
                             <p className={`text-sm ${
-                              message.type === 'announcement' ? 'font-medium text-blue-800' :
-                              message.type === 'system' ? 'italic text-gray-600' : 'text-gray-900'
+                              message.type === 'announcement' ? 'font-medium text-ngo-purple' :
+                              message.type === 'system' ? 'italic text-gray-600' : 'text-foreground'
                             }`}>
                               {message.message}
                             </p>

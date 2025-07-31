@@ -108,19 +108,19 @@ export default function DonationHistoryDialog({ open, onOpenChange, userEmail }:
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-green-600">{userDonations.length}</div>
+                <div className="text-2xl font-bold text-ngo-purple">{userDonations.length}</div>
                 <p className="text-sm text-muted-foreground mt-1">Total Donations</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-blue-600">{certificatesAvailable}</div>
+                <div className="text-2xl font-bold text-ngo-pink">{certificatesAvailable}</div>
                 <p className="text-sm text-muted-foreground mt-1">Certificates Available</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-ngo-purple">
                   {userDonations.length > 0 ? formatAmount(totalDonated / userDonations.length) : '₹0'}
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">Average Donation</p>

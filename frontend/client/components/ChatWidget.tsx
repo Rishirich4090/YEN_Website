@@ -78,9 +78,9 @@ export default function ChatWidget({ userName, userRole, className = "" }: ChatW
   const getMessageStyle = (message: ChatMessage) => {
     switch (message.type) {
       case 'announcement':
-        return 'bg-blue-50 border border-blue-200 rounded-lg p-3';
+        return 'bg-ngo-pink-light border border-ngo-pink rounded-lg p-3';
       case 'system':
-        return 'bg-gray-50 border border-gray-200 rounded-lg p-3';
+        return 'bg-muted border border-border rounded-lg p-3';
       default:
         return '';
     }
@@ -89,11 +89,11 @@ export default function ChatWidget({ userName, userRole, className = "" }: ChatW
   const getMessageTextStyle = (message: ChatMessage) => {
     switch (message.type) {
       case 'announcement':
-        return 'font-medium text-blue-800';
+        return 'font-medium text-ngo-purple';
       case 'system':
-        return 'italic text-gray-600';
+        return 'italic text-muted-foreground';
       default:
-        return 'text-gray-900';
+        return 'text-foreground';
     }
   };
 
@@ -144,7 +144,7 @@ export default function ChatWidget({ userName, userRole, className = "" }: ChatW
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 mb-1">
                         <span className={`text-sm font-semibold truncate ${
-                          message.userRole === 'admin' ? 'text-blue-600' : 'text-gray-900'
+                          message.userRole === 'admin' ? 'text-ngo-purple' : 'text-foreground'
                         }`}>
                           {message.user}
                         </span>

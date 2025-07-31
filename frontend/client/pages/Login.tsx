@@ -278,18 +278,18 @@ export default function Login() {
               </div>
 
               {/* Demo Credentials */}
-              <div className="p-6 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 className="font-semibold mb-2 text-blue-800">Demo Credentials</h3>
+              <div className="p-6 bg-ngo-pink-light border border-ngo-pink rounded-lg">
+                <h3 className="font-semibold mb-2 text-ngo-purple">Demo Credentials</h3>
                 <div className="space-y-3 text-sm">
                   <div>
-                    <p className="font-medium text-blue-700">Member Account:</p>
-                    <p className="text-blue-600">Email: member@hopehands.org</p>
-                    <p className="text-blue-600">Password: member123</p>
+                    <p className="font-medium text-ngo-purple-light">Member Account:</p>
+                    <p className="text-ngo-purple">Email: member@hopehands.org</p>
+                    <p className="text-ngo-purple">Password: member123</p>
                   </div>
                   <div>
-                    <p className="font-medium text-blue-700">Admin Account:</p>
-                    <p className="text-blue-600">Email: admin@hopehands.org</p>
-                    <p className="text-blue-600">Password: admin123</p>
+                    <p className="font-medium text-ngo-purple-light">Admin Account:</p>
+                    <p className="text-ngo-purple">Email: admin@hopehands.org</p>
+                    <p className="text-ngo-purple">Password: admin123</p>
                   </div>
                 </div>
               </div>
@@ -316,17 +316,17 @@ export default function Login() {
 
                     {/* Success Message */}
                     {success && (
-                      <div className="p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-2">
-                        <CheckCircle className="h-5 w-5 text-green-600" />
-                        <span className="text-green-800 text-sm">{success}</span>
+                      <div className="p-4 bg-ngo-pink-light border border-ngo-pink rounded-lg flex items-center space-x-2">
+                        <CheckCircle className="h-5 w-5 text-ngo-purple" />
+                        <span className="text-ngo-purple text-sm">{success}</span>
                       </div>
                     )}
 
                     {/* Error Message */}
                     {authError && (
-                      <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-2">
-                        <AlertCircle className="h-5 w-5 text-red-600" />
-                        <span className="text-red-800 text-sm">{authError}</span>
+                      <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg flex items-center space-x-2">
+                        <AlertCircle className="h-5 w-5 text-destructive" />
+                        <span className="text-destructive text-sm">{authError}</span>
                       </div>
                     )}
 

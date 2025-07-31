@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -57,6 +58,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // NGO Custom Color Palette
+        ngo: {
+          purple: "#7F55B1",        // Primary purple
+          "purple-light": "#9B7EBD", // Light purple  
+          pink: "#F49BAB",          // Primary pink
+          "pink-light": "#FFE1E0",  // Light pink
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -87,5 +95,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

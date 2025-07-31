@@ -195,7 +195,7 @@ export default function AdminProfile() {
                       <div className="flex items-center gap-2 mt-2">
                         <Badge
                           variant="secondary"
-                          className="bg-blue-100 text-blue-800"
+                          className="bg-ngo-purple-light text-ngo-purple"
                         >
                           <Shield className="h-3 w-3 mr-1" />
                           Administrator
@@ -332,11 +332,11 @@ export default function AdminProfile() {
                           key={index}
                           className="flex items-center space-x-3 p-3 border rounded-lg"
                         >
-                          <Shield className="h-4 w-4 text-green-600" />
+                          <Shield className="h-4 w-4 text-ngo-purple" />
                           <span className="font-medium">{permission}</span>
                           <Badge
                             variant="secondary"
-                            className="ml-auto bg-green-100 text-green-800"
+                            className="ml-auto bg-ngo-purple-light text-ngo-purple"
                           >
                             Active
                           </Badge>
@@ -401,7 +401,7 @@ export default function AdminProfile() {
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex items-center space-x-3 text-sm">
-                        <div className="h-2 w-2 bg-green-500 rounded-full" />
+                        <div className="h-2 w-2 bg-ngo-purple rounded-full" />
                         <span>
                           Successful login from Chrome (Current session)
                         </span>
@@ -410,14 +410,14 @@ export default function AdminProfile() {
                         </span>
                       </div>
                       <div className="flex items-center space-x-3 text-sm">
-                        <div className="h-2 w-2 bg-green-500 rounded-full" />
+                        <div className="h-2 w-2 bg-ngo-purple rounded-full" />
                         <span>Password changed successfully</span>
                         <span className="text-muted-foreground ml-auto">
                           30 days ago
                         </span>
                       </div>
                       <div className="flex items-center space-x-3 text-sm">
-                        <div className="h-2 w-2 bg-blue-500 rounded-full" />
+                        <div className="h-2 w-2 bg-ngo-pink rounded-full" />
                         <span>Profile information updated</span>
                         <span className="text-muted-foreground ml-auto">
                           45 days ago

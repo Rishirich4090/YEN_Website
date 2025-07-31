@@ -23,7 +23,7 @@ export default function VerificationBadge({
   return (
     <CheckCircle 
       className={cn(
-        "text-green-600 bg-white rounded-full",
+        "text-ngo-purple bg-white rounded-full",
         sizeClasses[size],
         className
       )}

@@ -236,15 +236,15 @@ Thank you!`
         {isSubmitted ? (
           <div className="text-center py-8 space-y-4">
             <div className="flex justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-ngo-purple-light">
+                <CheckCircle className="h-6 w-6 text-ngo-purple" />
               </div>
             </div>
             <h3 className="text-xl font-semibold">Application Submitted Successfully!</h3>
             <p className="text-muted-foreground">
               Thank you for applying. Check your email for login credentials to track your application status.
             </p>
-            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+            <Badge variant="secondary" className="bg-ngo-pink-light text-ngo-pink">
               Status: Pending Approval
             </Badge>
             <Button onClick={() => setActiveTab("login")} className="mt-4">
@@ -405,12 +405,12 @@ Thank you!`
           </Button>
         </form>
 
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+        <div className="mt-6 p-4 bg-ngo-pink-light rounded-lg">
           <div className="flex items-start space-x-2">
-            <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+            <AlertCircle className="h-5 w-5 text-ngo-purple mt-0.5" />
             <div className="text-sm">
-              <p className="font-medium text-blue-900">Don't have login credentials?</p>
-              <p className="text-blue-700">
+              <p className="font-medium text-ngo-purple">Don't have login credentials?</p>
+              <p className="text-ngo-purple-light">
                 Submit a membership application first, then check your email for login details.
               </p>
             </div>
@@ -441,9 +441,9 @@ Thank you!`
     const getStatusBadge = (status: string) => {
       switch (status) {
         case 'pending':
-          return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Pending Review</Badge>;
+          return <Badge variant="secondary" className="bg-ngo-pink-light text-ngo-pink">Pending Review</Badge>;
         case 'approved':
-          return <Badge variant="secondary" className="bg-green-100 text-green-800">Approved ✓</Badge>;
+          return <Badge variant="secondary" className="bg-ngo-purple-light text-ngo-purple">Approved ✓</Badge>;
         case 'rejected':
           return <Badge variant="destructive">Rejected</Badge>;
         case 'expired':
@@ -522,7 +522,7 @@ Thank you!`
                   <CardContent className="p-4 text-center">
                     <Award className="h-6 w-6 text-primary mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground">Days Remaining</p>
-                    <p className={`font-semibold ${daysRemaining && daysRemaining < 30 ? 'text-red-600' : 'text-green-600'}`}>
+                    <p className={`font-semibold ${daysRemaining && daysRemaining < 30 ? 'text-destructive' : 'text-ngo-purple'}`}>
                       {daysRemaining ? `${daysRemaining} days` : 'Calculating...'}
                     </p>
                   </CardContent>
@@ -532,36 +532,36 @@ Thank you!`
 
             {/* Status-specific content */}
             {memberData.approvalStatus === 'pending' && (
-              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-4">
+              <div className="bg-ngo-pink-light p-4 rounded-lg border border-ngo-pink mb-4">
                 <div className="flex items-center space-x-2">
-                  <Clock className="h-5 w-5 text-yellow-600" />
-                  <h4 className="font-semibold text-yellow-800">Application Under Review</h4>
+                  <Clock className="h-5 w-5 text-ngo-pink" />
+                  <h4 className="font-semibold text-ngo-pink">Application Under Review</h4>
                 </div>
-                <p className="text-yellow-700 mt-2">
+                <p className="text-ngo-pink mt-2">
                   Your membership application is being reviewed by our admin team. You'll receive an email notification once it's processed.
                 </p>
               </div>
             )}
 
             {memberData.approvalStatus === 'approved' && (
-              <div className="bg-green-50 p-4 rounded-lg border border-green-200 mb-4">
+              <div className="bg-ngo-purple-light/50 p-4 rounded-lg border border-ngo-purple mb-4">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <h4 className="font-semibold text-green-800">Membership Approved!</h4>
+                  <CheckCircle className="h-5 w-5 text-ngo-purple" />
+                  <h4 className="font-semibold text-ngo-purple">Membership Approved!</h4>
                 </div>
-                <p className="text-green-700 mt-2">
+                <p className="text-ngo-purple mt-2">
                   Congratulations! Your membership has been approved and you now have access to all member benefits.
                 </p>
               </div>
             )}
 
             {memberData.approvalStatus === 'expired' && (
-              <div className="bg-red-50 p-4 rounded-lg border border-red-200 mb-4">
+              <div className="bg-destructive/10 p-4 rounded-lg border border-destructive/20 mb-4">
                 <div className="flex items-center space-x-2">
-                  <AlertCircle className="h-5 w-5 text-red-600" />
-                  <h4 className="font-semibold text-red-800">Membership Expired</h4>
+                  <AlertCircle className="h-5 w-5 text-destructive" />
+                  <h4 className="font-semibold text-destructive">Membership Expired</h4>
                 </div>
-                <p className="text-red-700 mt-2">
+                <p className="text-destructive mt-2">
                   Your membership has expired. Please extend your membership to continue enjoying member benefits.
                 </p>
                 <Button className="mt-3" onClick={() => setActiveTab("apply")}>

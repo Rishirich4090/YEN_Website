@@ -88,14 +88,14 @@ export default function HopeHandsLogo({
         </svg>
       </div>
 
-      {/* Subtle glow effect with green-yellow theme */}
-      <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-yellow-300/20 to-green-400/20 blur-sm -z-10"></div>
+      {/* Subtle glow effect with purple-pink theme */}
+      <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-purple-300/20 to-pink-400/20 blur-sm -z-10"></div>
     </div>
   );
 
   const LogoText = () => (
     <span
-      className={`${textSize} font-bold bg-gradient-to-r from-green-700 via-yellow-600 to-green-600 bg-clip-text text-transparent ${className}`}
+      className={`${textSize} font-bold bg-gradient-to-r from-purple-700 via-pink-600 to-purple-600 bg-clip-text text-transparent ${className}`}
     >
       HopeHands
     </span>

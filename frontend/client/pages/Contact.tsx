@@ -214,8 +214,8 @@ export default function Contact() {
                   {isSubmitted ? (
                     <div className="text-center py-8 space-y-4">
                       <div className="flex justify-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                          <CheckCircle className="h-6 w-6 text-green-600" />
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-ngo-purple-light">
+                          <CheckCircle className="h-6 w-6 text-ngo-purple" />
                         </div>
                       </div>
                       <h3 className="text-xl font-semibold">Message Sent Successfully!</h3>
@@ -394,7 +394,7 @@ export default function Contact() {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded-lg p-3">
-                    <p className="text-sm font-medium text-gray-900 flex items-center">
+                    <p className="text-sm font-medium text-foreground flex items-center">
                       <MapPin className="h-4 w-4 mr-2" />
                       Click to open in Google Maps
                     </p>

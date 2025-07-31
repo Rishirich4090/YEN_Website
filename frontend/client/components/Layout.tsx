@@ -125,21 +125,21 @@ export default function Layout({ children }: LayoutProps) {
               const getHoverClass = (itemName: string) => {
                 switch (itemName) {
                   case "Home":
-                    return "nav-hover-green";
+                    return "nav-hover-purple";
                   case "About":
-                    return "nav-hover-yellow";
+                    return "nav-hover-pink";
                   case "Projects":
                     return "nav-hover-primary";
                   case "Donate":
-                    return "nav-hover-green";
+                    return "nav-hover-purple";
                   case "Contact":
-                    return "nav-hover-yellow";
+                    return "nav-hover-pink";
                   case "Membership":
                     return "nav-hover-primary";
                   case "Admin Dashboard":
-                    return "nav-hover-green";
+                    return "nav-hover-purple";
                   case "Profile":
-                    return "nav-hover-yellow";
+                    return "nav-hover-pink";
                   default:
                     return "nav-hover-primary";
                 }
@@ -182,7 +182,7 @@ export default function Layout({ children }: LayoutProps) {
                 <Button
                   size="sm"
                   asChild
-                  className="btn-hover-yellow bg-gradient-yellow-green text-primary-foreground shadow-md"
+                  className="btn-hover-pink bg-gradient-purple-pink text-primary-foreground shadow-md"
                 >
                   <Link to="/membership" className="flex items-center">
                     <UserPlus className="h-4 w-4 mr-2" />
@@ -193,7 +193,7 @@ export default function Layout({ children }: LayoutProps) {
             )}
             {!isAuthLoading && isLoggedIn && (
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer nav-hover-green">
+                <span className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer nav-hover-purple">
                   Welcome, {userEmail}
                 </span>
                 <Button
@@ -235,19 +235,19 @@ export default function Layout({ children }: LayoutProps) {
                     case "Home":
                       return "btn-hover-glow";
                     case "About":
-                      return "btn-hover-yellow";
+                      return "btn-hover-pink";
                     case "Projects":
                       return "btn-hover-glow";
                     case "Donate":
-                      return "btn-hover-yellow";
+                      return "btn-hover-pink";
                     case "Contact":
                       return "btn-hover-glow";
                     case "Membership":
-                      return "btn-hover-yellow";
+                      return "btn-hover-pink";
                     case "Admin Dashboard":
                       return "btn-hover-glow";
                     case "Profile":
-                      return "btn-hover-yellow";
+                      return "btn-hover-pink";
                     default:
                       return "btn-hover-glow";
                   }
@@ -286,7 +286,7 @@ export default function Layout({ children }: LayoutProps) {
                     <Button
                       size="sm"
                       asChild
-                      className="btn-hover-yellow bg-gradient-yellow-green text-primary-foreground shadow-md justify-start"
+                      className="btn-hover-pink bg-gradient-purple-pink text-primary-foreground shadow-md justify-start"
                     >
                       <Link to="/membership" onClick={() => setIsMenuOpen(false)} className="flex items-center">
                         <UserPlus className="h-4 w-4 mr-2" />
@@ -297,7 +297,7 @@ export default function Layout({ children }: LayoutProps) {
                 )}
                 {!isAuthLoading && isLoggedIn && (
                   <div className="space-y-3">
-                    <div className="text-sm text-muted-foreground px-3 hover:text-primary transition-colors duration-200 cursor-pointer nav-hover-green">
+                    <div className="text-sm text-muted-foreground px-3 hover:text-primary transition-colors duration-200 cursor-pointer nav-hover-purple">
                       Welcome, {userEmail}
                     </div>
                     <Button
@@ -353,7 +353,7 @@ export default function Layout({ children }: LayoutProps) {
                 <li>
                   <Link
                     to="/projects"
-                    className="hover:text-primary transition-all duration-300 hover:translate-x-2 nav-hover-green block"
+                    className="hover:text-primary transition-all duration-300 hover:translate-x-2 nav-hover-purple block"
                   >
                     Our Projects
                   </Link>
@@ -406,7 +406,7 @@ export default function Layout({ children }: LayoutProps) {
                 />
                 <Button
                   size="sm"
-                  className="bg-gradient-yellow-green btn-hover-yellow shadow-theme"
+                  className="bg-gradient-purple-pink btn-hover-pink shadow-theme"
                 >
                   Subscribe
                 </Button>

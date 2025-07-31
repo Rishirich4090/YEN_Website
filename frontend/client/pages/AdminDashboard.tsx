@@ -535,13 +535,13 @@ export default function AdminDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "approved":
-        return "bg-green-100 text-green-800";
+        return "bg-ngo-purple-light text-ngo-purple";
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-ngo-pink-light text-ngo-pink";
       case "rejected":
-        return "bg-red-100 text-red-800";
+        return "bg-destructive/10 text-destructive";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -576,7 +576,7 @@ export default function AdminDashboard() {
                           {stat.label}
                         </p>
                         <p className="text-2xl font-bold">{stat.value}</p>
-                        <p className="text-xs text-green-600">
+                        <p className="text-xs text-ngo-purple">
                           {stat.change} from last month
                         </p>
                       </div>
@@ -942,8 +942,8 @@ export default function AdminDashboard() {
                           key={donation.id}
                           className="flex items-center space-x-3 text-sm"
                         >
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
-                            <Gift className="h-3 w-3 text-green-600" />
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ngo-purple-light">
+                            <Gift className="h-3 w-3 text-ngo-purple" />
                           </div>
                           <div className="flex-1">
                             <p>
@@ -1197,7 +1197,7 @@ export default function AdminDashboard() {
                                         </Card>
                                         <Card>
                                           <CardContent className="p-4 text-center">
-                                            <p className="text-2xl font-bold text-green-600">
+                                            <p className="text-2xl font-bold text-ngo-purple">
                                               {user.eventsAttended}
                                             </p>
                                             <p className="text-sm text-muted-foreground">
@@ -1207,7 +1207,7 @@ export default function AdminDashboard() {
                                         </Card>
                                         <Card>
                                           <CardContent className="p-4 text-center">
-                                            <p className="text-2xl font-bold text-blue-600">
+                                            <p className="text-2xl font-bold text-ngo-pink">
                                               {user.messagesPosted}
                                             </p>
                                             <p className="text-sm text-muted-foreground">
@@ -1217,7 +1217,7 @@ export default function AdminDashboard() {
                                         </Card>
                                         <Card>
                                           <CardContent className="p-4 text-center">
-                                            <p className="text-2xl font-bold text-purple-600">
+                                            <p className="text-2xl font-bold text-ngo-purple">
                                               {user.profileCompleteness}%
                                             </p>
                                             <p className="text-sm text-muted-foreground">
@@ -1236,7 +1236,7 @@ export default function AdminDashboard() {
                                         <div className="flex justify-between text-sm">
                                           <span>Certificate Downloaded:</span>
                                           <span
-                                            className={`font-medium ${user.certificateDownloaded ? "text-green-600" : "text-red-600"}`}
+                                            className={`font-medium ${user.certificateDownloaded ? "text-ngo-purple" : "text-red-600"}`}
                                           >
                                             {user.certificateDownloaded
                                               ? "Yes"
@@ -1396,8 +1396,8 @@ export default function AdminDashboard() {
                         className="flex items-center justify-between p-4 border rounded-lg"
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                            <Gift className="h-5 w-5 text-green-600" />
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ngo-purple-light">
+                            <Gift className="h-5 w-5 text-ngo-purple" />
                           </div>
                           <div>
                             <h3 className="font-semibold">
@@ -1415,7 +1415,7 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                         <div className="text-right space-y-1">
-                          <p className="text-lg font-bold text-green-600">
+                          <p className="text-lg font-bold text-ngo-purple">
                             {donationService.formatAmount(donation.amount)}
                           </p>
                           <div className="flex items-center space-x-2">
@@ -1476,39 +1476,39 @@ export default function AdminDashboard() {
                         switch (type) {
                           case "login":
                             return (
-                              <LogOut className="h-4 w-4 text-green-600" />
+                              <LogOut className="h-4 w-4 text-ngo-purple" />
                             );
                           case "certificate":
-                            return <Award className="h-4 w-4 text-blue-600" />;
+                            return <Award className="h-4 w-4 text-ngo-pink" />;
                           case "chat":
                             return (
-                              <MessageCircle className="h-4 w-4 text-purple-600" />
+                              <MessageCircle className="h-4 w-4 text-ngo-purple" />
                             );
                           case "event":
                             return (
-                              <Calendar className="h-4 w-4 text-orange-600" />
+                              <Calendar className="h-4 w-4 text-ngo-pink" />
                             );
                           case "profile":
-                            return <User className="h-4 w-4 text-teal-600" />;
+                            return <User className="h-4 w-4 text-ngo-purple-light" />;
                           default:
-                            return <Users className="h-4 w-4 text-gray-600" />;
+                            return <Users className="h-4 w-4 text-muted-foreground" />;
                         }
                       };
 
                       const getActivityColor = (type: string) => {
                         switch (type) {
                           case "login":
-                            return "bg-green-50 border-green-200";
+                            return "bg-ngo-purple-light/50 border-ngo-purple";
                           case "certificate":
-                            return "bg-blue-50 border-blue-200";
+                            return "bg-ngo-pink-light/50 border-ngo-pink";
                           case "chat":
-                            return "bg-purple-50 border-purple-200";
+                            return "bg-ngo-purple-light border-ngo-purple";
                           case "event":
-                            return "bg-orange-50 border-orange-200";
+                            return "bg-ngo-pink-light border-ngo-pink";
                           case "profile":
-                            return "bg-teal-50 border-teal-200";
+                            return "bg-ngo-purple-light border-ngo-purple-light";
                           default:
-                            return "bg-gray-50 border-gray-200";
+                            return "bg-muted border-border";
                         }
                       };
 
@@ -1530,7 +1530,7 @@ export default function AdminDashboard() {
                                   {activity.timestamp}
                                 </span>
                               </div>
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-foreground">
                                 {activity.action}
                               </p>
                               <p className="text-sm text-muted-foreground">
