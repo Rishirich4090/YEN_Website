@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import Contact from '../models/Contact.js';
+import ContactMessage from '../models/ContactMessage.js';
 import emailService from '../services/emailService.js';
 import { validateContactForm } from '../middleware/validation.js';
 
@@ -8,14 +8,29 @@ const router = express.Router();
 // POST /api/contact - Handle contact form submission
 router.post('/', validateContactForm, async (req: Request, res: Response) => {
   try {
-    const { name, email, phone, message } = req.body;
+    const { 
+      name, 
+      email, 
+      phone, 
+      subject, 
+      message, 
+      category = 'general',
+      priority = 'medium',
+      source = 'website' 
+    } = req.body;
 
-    // Save contact to database
-    const contact = new Contact({
+    // Save contact to database using ContactMessage model (more detailed)
+    const contact = new ContactMessage({
       name,
       email,
       phone,
-      message
+      subject: subject || 'General Inquiry',
+      message,
+      category,
+      priority,
+      source,
+      ipAddress: req.ip || req.connection.remoteAddress,
+      userAgent: req.get('User-Agent')
     });
 
     await contact.save();
@@ -37,7 +52,10 @@ router.post('/', validateContactForm, async (req: Request, res: Response) => {
       message: 'Thank you for your message. We will get back to you soon!',
       data: {
         id: contact._id,
-        emailSent
+        emailSent,
+        category: contact.category,
+        priority: contact.priority,
+        status: contact.status
       }
     });
 
@@ -54,7 +72,7 @@ router.post('/', validateContactForm, async (req: Request, res: Response) => {
 // GET /api/contact - Get all contacts (admin only)
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const contacts = await Contact.find().sort({ createdAt: -1 });
+    const contacts = await ContactMessage.find().sort({ createdAt: -1 });
     res.json({
       success: true,
       data: contacts
@@ -74,14 +92,14 @@ router.patch('/:id/status', async (req: Request, res: Response) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!['new', 'read', 'responded'].includes(status)) {
+    if (!['new', 'in-progress', 'resolved', 'spam'].includes(status)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid status'
       });
     }
 
-    const contact = await Contact.findByIdAndUpdate(
+    const contact = await ContactMessage.findByIdAndUpdate(
       id,
       { status },
       { new: true }

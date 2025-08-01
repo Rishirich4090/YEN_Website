@@ -30,16 +30,58 @@ router.post('/login', async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ success: false, message: 'Email and password required.' });
         }
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+        }
+        // Debug logging
+        console.log('User found:', !!user);
+        console.log('Password field exists:', !!user.password);
+        console.log('Password type:', typeof user.password);
+        // Check if password field exists
+        if (!user.password) {
+            console.error('Password field is missing from user document');
+            return res.status(500).json({ success: false, message: 'Login failed.', error: 'Password field not found' });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ success: false, message: 'Invalid credentials.' });
         }
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
-        res.json({ success: true, message: 'Login successful.', token, user: { id: user._id, email: user.email, name: user.name } });
+        // Return all relevant user fields to avoid undefined errors in frontend
+        const userObj = user.toObject();
+        // Remove sensitive fields
+        const { password: _, resetPasswordToken, verificationToken, __v, ...cleanUserObj } = userObj;
+        res.json({
+            success: true,
+            message: 'Login successful.',
+            token,
+            user: {
+                id: cleanUserObj._id,
+                email: cleanUserObj.email,
+                name: cleanUserObj.name,
+                role: cleanUserObj.role,
+                membershipType: cleanUserObj.membershipType,
+                status: cleanUserObj.status,
+                address: cleanUserObj.address,
+                dateOfBirth: cleanUserObj.dateOfBirth,
+                avatar: cleanUserObj.avatar,
+                joinDate: cleanUserObj.joinDate,
+                membershipStartDate: cleanUserObj.membershipStartDate,
+                membershipEndDate: cleanUserObj.membershipEndDate,
+                lastActive: cleanUserObj.lastActive,
+                loginCount: cleanUserObj.loginCount,
+                profileCompleteness: cleanUserObj.profileCompleteness,
+                certificateGenerated: cleanUserObj.certificateGenerated,
+                certificateDownloaded: cleanUserObj.certificateDownloaded,
+                eventsAttended: cleanUserObj.eventsAttended,
+                messagesPosted: cleanUserObj.messagesPosted,
+                reason: cleanUserObj.reason,
+                isVerified: cleanUserObj.isVerified,
+                createdAt: cleanUserObj.createdAt,
+                updatedAt: cleanUserObj.updatedAt
+            }
+        });
     }
     catch (error) {
         res.status(500).json({ success: false, message: 'Login failed.', error: error?.message || 'Unknown error' });

@@ -379,6 +379,30 @@ class ApiClient {
    */
   public async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     const response = await this.instance.post<ApiResponse<T>>(url, data, config);
+    
+    // For login response, handle the direct structure from backend
+    if (url.includes('/auth/login') && response.data) {
+      console.log('🔄 Raw Login Response:', response.data);
+      
+      // Backend returns: { success: true, message: "...", token: "...", user: {...} }
+      // But our ApiResponse expects: { success: true, message: "...", data: { token: "...", user: {...} } }
+      const backendResponse = response.data as any;
+      if (backendResponse.success && backendResponse.token && backendResponse.user) {
+        // Restructure to match expected ApiResponse format
+        const restructuredResponse = {
+          success: backendResponse.success,
+          message: backendResponse.message,
+          data: {
+            token: backendResponse.token,
+            user: backendResponse.user,
+            refreshToken: backendResponse.refreshToken
+          } as T
+        };
+        console.log('🔄 Restructured Login Response:', restructuredResponse);
+        return restructuredResponse;
+      }
+    }
+    
     return response.data;
   }
 

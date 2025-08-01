@@ -77,39 +77,168 @@ export interface ContactFormData {
   phone?: string;
   subject: string;
   message: string;
-  category?: string;
+  category?: 'general' | 'membership' | 'donation' | 'volunteer' | 'support' | 'feedback' | 'partnership';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  source?: 'website' | 'email' | 'phone' | 'social-media' | 'event';
 }
 
 // Donation Types
 export interface Donation {
   _id: string;
+  // Donor Information
   donorName: string;
   donorEmail: string;
+  donorPhone?: string;
+  donorAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+  };
+  
+  // Donation Details
   amount: number;
   currency: string;
   donationType: 'one-time' | 'monthly' | 'quarterly' | 'annual' | 'recurring';
-  paymentMethod: string;
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded' | 'cancelled';
+  recurringDetails?: {
+    frequency: 'monthly' | 'quarterly' | 'annual';
+    nextPaymentDate?: Date;
+    endDate?: Date;
+    isActive: boolean;
+  };
+  
+  // Payment Information
+  paymentMethod: 'credit-card' | 'debit-card' | 'paypal' | 'bank-transfer' | 'cryptocurrency' | 'check' | 'cash';
+  paymentProvider: 'stripe' | 'paypal' | 'razorpay' | 'square' | 'manual';
   transactionId: string;
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded' | 'cancelled';
+  paymentReference?: string;
+  processingFee?: number;
+  netAmount?: number;
+  
+  // Tax and Legal
+  taxDeductible: boolean;
+  taxReceiptNumber?: string;
+  taxReceiptSent: boolean;
+  taxReceiptSentDate?: string;
+  
+  // Project/Campaign Information
   project?: string;
+  campaign?: string;
+  designation: 'general' | 'specific-project' | 'emergency-fund' | 'education' | 'healthcare' | 'environment';
+  
+  // Donor Interaction
   message?: string;
   isAnonymous: boolean;
+  publicDisplay: boolean;
+  donorConsent: {
+    marketing: boolean;
+    updates: boolean;
+    newsletter: boolean;
+    dataProcessing: boolean;
+  };
+  
+  // Certificates and Acknowledgments
   certificateSent: boolean;
+  certificateSentDate?: string;
+  acknowledgmentSent: boolean;
+  acknowledgmentSentDate?: string;
+  thankYouEmailSent: boolean;
+  
+  // Tracking and Analytics
+  source: 'website' | 'mobile-app' | 'email-campaign' | 'social-media' | 'event' | 'direct-mail' | 'referral';
+  referralSource?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  deviceInfo?: {
+    userAgent?: string;
+    ipAddress?: string;
+    device?: string;
+    browser?: string;
+  };
+  
+  // Internal Management
   donationDate: string;
+  processedDate?: string;
+  verifiedBy?: string;
+  verifiedAt?: string;
+  notes?: string;
+  internalTags: string[];
+  
+  // Financial Reporting
+  fiscalYear: number;
+  quarter: number;
+  month: number;
+  
+  // Matching and Corporate
+  isMatched: boolean;
+  matchingDonation?: string;
+  corporateMatching?: {
+    company: string;
+    matchingRatio: number;
+    matchingAmount: number;
+    status: 'pending' | 'approved' | 'completed';
+  };
+  
   createdAt: string;
   updatedAt: string;
 }
 
 export interface DonationFormData {
+  // Donor Information
   donorName: string;
   donorEmail: string;
+  donorPhone?: string;
+  donorAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+  };
+  
+  // Donation Details
   amount: number;
   currency: string;
   donationType: 'one-time' | 'monthly' | 'quarterly' | 'annual' | 'recurring';
-  paymentMethod: string;
+  recurringDetails?: {
+    frequency: 'monthly' | 'quarterly' | 'annual';
+    nextPaymentDate?: Date;
+    endDate?: Date;
+    isActive?: boolean;
+  };
+  
+  // Payment Information
+  paymentMethod: 'credit-card' | 'debit-card' | 'paypal' | 'bank-transfer' | 'cryptocurrency' | 'check' | 'cash';
+  paymentProvider?: 'stripe' | 'paypal' | 'razorpay' | 'square' | 'manual';
+  
+  // Project/Campaign Information
   project?: string;
+  campaign?: string;
+  designation?: 'general' | 'specific-project' | 'emergency-fund' | 'education' | 'healthcare' | 'environment';
+  
+  // Donor Interaction
   message?: string;
   isAnonymous: boolean;
+  publicDisplay?: boolean;
+  donorConsent: {
+    marketing: boolean;
+    updates: boolean;
+    newsletter: boolean;
+    dataProcessing: boolean;
+  };
+  
+  // Tracking and Analytics
+  source?: 'website' | 'mobile-app' | 'email-campaign' | 'social-media' | 'event' | 'direct-mail' | 'referral';
+  referralSource?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  
+  // Tax Information
+  panNumber?: string;
 }
 
 // Event Types
@@ -174,6 +303,30 @@ export interface ChatMessage {
   updatedAt: string;
 }
 
+// Payment Types
+export interface PaymentInitiationData {
+  donationId: string;
+  amount: number;
+  currency: string;
+  paymentMethod: string;
+}
+
+export interface PaymentVerificationData {
+  donationId: string;
+  paymentId: string;
+  status: string;
+}
+
+// Donation Statistics
+export interface DonationStats {
+  total: number;
+  totalAmount: number;
+  byType: Record<string, number>;
+  byProject: Record<string, number>;
+  byMonth: Record<string, number>;
+  topDonors: Array<{ email: string; totalAmount: number; donationCount: number }>;
+}
+
 // Loading States
 export interface LoadingState {
   isLoading: boolean;
@@ -188,12 +341,11 @@ export interface ContactState extends LoadingState {
 
 export interface DonationState extends LoadingState {
   donations: Donation[];
+  userDonations: Donation[];
   currentDonation: Donation | null;
-  statistics: {
-    totalAmount: number;
-    totalDonations: number;
-    monthlyRecurring: number;
-  } | null;
+  donationStats: DonationStats | null;
+  isProcessingPayment: boolean;
+  paymentError: string | null;
 }
 
 export interface EventState extends LoadingState {

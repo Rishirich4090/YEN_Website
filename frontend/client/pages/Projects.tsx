@@ -24,17 +24,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  Droplets,
-  GraduationCap,
-  Home,
+  Network,
+  Lightbulb,
+  TrendingUp,
   Heart,
-  Stethoscope,
-  Zap,
+  Users,
+  Briefcase,
   Search,
   Filter,
   MapPin,
   Calendar,
-  Users,
   CheckCircle,
   ExternalLink,
   ArrowRight,
@@ -45,11 +44,11 @@ import {
 
 type ProjectStatus = "completed" | "ongoing" | "planned";
 type ProjectCategory =
-  | "water"
-  | "education"
-  | "housing"
-  | "healthcare"
-  | "energy"
+  | "networking"
+  | "mentorship"
+  | "business"
+  | "startup"
+  | "funding"
   | "community";
 
 interface Project {
@@ -86,7 +85,7 @@ export default function Projects() {
     title: "",
     description: "",
     longDescription: "",
-    category: "water",
+    category: "networking",
     status: "planned",
     year: new Date().getFullYear(),
     location: "",
@@ -107,28 +106,38 @@ export default function Projects() {
 
   const categories = [
     {
-      value: "water",
-      label: "Clean Water",
-      icon: Droplets,
+      value: "networking",
+      label: "Networking",
+      icon: Network,
       color: "bg-ngo-purple",
     },
     {
-      value: "education",
-      label: "Education",
-      icon: GraduationCap,
+      value: "mentorship",
+      label: "Mentorship",
+      icon: Users,
       color: "bg-ngo-purple-light",
     },
-    { value: "housing", label: "Housing", icon: Home, color: "bg-ngo-pink" },
+    { 
+      value: "business", 
+      label: "Business Development", 
+      icon: Briefcase, 
+      color: "bg-ngo-pink" 
+    },
     {
-      value: "healthcare",
-      label: "Healthcare",
-      icon: Stethoscope,
+      value: "startup",
+      label: "Startup Support",
+      icon: Lightbulb,
       color: "bg-destructive",
     },
-    { value: "energy", label: "Energy", icon: Zap, color: "bg-ngo-pink-light" },
+    { 
+      value: "funding", 
+      label: "Funding Support", 
+      icon: TrendingUp, 
+      color: "bg-ngo-pink-light" 
+    },
     {
       value: "community",
-      label: "Community Dev",
+      label: "Community Building",
       icon: Heart,
       color: "bg-ngo-pink",
     },
@@ -137,184 +146,184 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([
     {
       id: "1",
-      title: "Clean Water Wells Initiative",
+      title: "Global Entrepreneur Network",
       description:
-        "Installing sustainable water wells in rural communities across Kenya and Tanzania.",
+        "Connecting entrepreneurs worldwide through our flagship networking platform and events.",
       longDescription:
-        "This comprehensive water project involves drilling deep wells, installing solar-powered pumps, and training local communities in maintenance. Each well serves approximately 500 people and includes water quality testing and purification systems.",
-      category: "water",
+        "Our comprehensive networking program connects entrepreneurs across continents through virtual meetups, annual conferences, and region-specific networking events. Members gain access to our exclusive platform with industry insights, partnership opportunities, and collaborative projects.",
+      category: "networking",
       status: "completed",
       year: 2023,
-      location: "Kenya & Tanzania",
-      beneficiaries: 12500,
-      budget: "$150,000",
+      location: "Global (25+ Countries)",
+      beneficiaries: 5000,
+      budget: "₹75,00,000",
       impact: [
-        "25 wells installed with solar pumps",
-        "12,500 people gained clean water access",
-        "80% reduction in waterborne diseases",
-        "50 local technicians trained in maintenance",
+        "5,000+ entrepreneurs connected globally",
+        "500+ business partnerships formed",
+        "95% member satisfaction rate",
+        "200+ networking events hosted",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Water for Life Foundation",
+      image: "networking",
+      gallery: ["networking", "networking", "networking"],
+      partner: "Global Business Alliance",
       duration: "18 months",
-      fundingGoal: 1500000,
-      fundsRaised: 1500000,
+      fundingGoal: 7500000,
+      fundsRaised: 7500000,
     },
     {
       id: "2",
-      title: "Rural School Construction Program",
+      title: "Startup Mentorship Program",
       description:
-        "Building modern schools with digital learning centers in underserved communities.",
+        "Pairing early-stage entrepreneurs with experienced business leaders for guided growth.",
       longDescription:
-        "Complete school infrastructure development including classrooms, laboratories, libraries, and computer centers. Each school is designed to accommodate 300-500 students and includes teacher training programs.",
-      category: "education",
+        "Comprehensive mentorship program matching startup founders with industry veterans. Includes structured curriculum, monthly one-on-one sessions, group workshops, and access to exclusive resources for scaling businesses.",
+      category: "mentorship",
       status: "ongoing",
       year: 2024,
-      location: "Uganda & Ghana",
-      beneficiaries: 2800,
-      budget: "$300,000",
+      location: "India & Southeast Asia",
+      beneficiaries: 800,
+      budget: "₹45,00,000",
       impact: [
-        "8 schools under construction",
-        "2,800 children will benefit",
-        "40 teachers receiving training",
-        "Digital learning centers in each school",
+        "800+ startups receiving mentorship",
+        "300+ experienced mentors onboarded",
+        "65% startup survival rate improvement",
+        "50+ successful funding rounds facilitated",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Education First Alliance",
+      image: "mentorship",
+      gallery: ["mentorship", "mentorship", "mentorship"],
+      partner: "Startup India Initiative",
       duration: "24 months",
       completion: 65,
-      fundingGoal: 3000000,
-      fundsRaised: 1950000,
+      fundingGoal: 4500000,
+      fundsRaised: 2925000,
     },
     {
       id: "3",
-      title: "Affordable Housing Village",
+      title: "Business Accelerator Hub",
       description:
-        "Constructing sustainable homes for displaced families with community centers.",
+        "Intensive 6-month program providing resources, workspace, and funding opportunities.",
       longDescription:
-        "Eco-friendly housing project using local materials and sustainable building practices. Includes family homes, community center, playground, and shared facilities with rainwater harvesting systems.",
-      category: "housing",
+        "State-of-the-art accelerator providing startups with co-working space, expert guidance, investor connections, and seed funding opportunities. Includes workshops on business strategy, market validation, and scaling operations.",
+      category: "business",
       status: "completed",
       year: 2022,
-      location: "Philippines",
-      beneficiaries: 800,
-      budget: "$200,000",
+      location: "Mumbai & Bangalore",
+      beneficiaries: 120,
+      budget: "₹1,20,00,000",
       impact: [
-        "120 homes built for families",
-        "800 people housed safely",
-        "Community center with multipurpose halls",
-        "Rainwater harvesting for all homes",
+        "120 startups accelerated",
+        "80% graduation rate achieved",
+        "₹50 crores in follow-up funding raised",
+        "300+ jobs created by graduated startups",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Habitat International",
+      image: "business",
+      gallery: ["business", "business", "business"],
+      partner: "TechHub India",
       duration: "12 months",
-      fundingGoal: 2000000,
-      fundsRaised: 2000000,
+      fundingGoal: 12000000,
+      fundsRaised: 12000000,
     },
     {
       id: "4",
-      title: "Mobile Health Clinics Network",
+      title: "Tech Startup Incubator",
       description:
-        "Deploying mobile medical units to reach remote communities with healthcare services.",
+        "Supporting early-stage tech startups with resources, mentorship, and market access.",
       longDescription:
-        "State-of-the-art mobile health units equipped with medical equipment, telemedicine capabilities, and staffed by qualified healthcare professionals providing primary care, vaccinations, and health education.",
-      category: "healthcare",
+        "Specialized incubator for technology startups providing technical infrastructure, cloud credits, expert mentorship, and connections to global markets. Focus on AI, blockchain, and sustainable technology solutions.",
+      category: "startup",
       status: "ongoing",
       year: 2024,
-      location: "India & Bangladesh",
-      beneficiaries: 15000,
-      budget: "$400,000",
+      location: "Hyderabad & Pune",
+      beneficiaries: 60,
+      budget: "₹80,00,000",
       impact: [
-        "5 mobile clinics operational",
-        "15,000 patients treated monthly",
-        "Vaccination campaigns reaching 3,000 children",
-        "Telemedicine consultations available",
+        "60 tech startups supported",
+        "40+ expert mentors engaged",
+        "20+ patents filed by startups",
+        "₹25 crores in startup valuations",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Global Health Initiative",
+      image: "startup",
+      gallery: ["startup", "startup", "startup"],
+      partner: "National Innovation Foundation",
       duration: "36 months",
       completion: 40,
-      fundingGoal: 4000000,
-      fundsRaised: 1600000,
+      fundingGoal: 8000000,
+      fundsRaised: 3200000,
     },
     {
       id: "5",
-      title: "Solar Power for Schools",
+      title: "Angel Investor Network",
       description:
-        "Installing solar energy systems in rural schools to enable digital learning.",
+        "Connecting promising startups with angel investors and venture capitalists.",
       longDescription:
-        "Complete solar electrification project including solar panels, battery storage, LED lighting, and charging stations for electronic devices. Enables extended school hours and digital learning opportunities.",
-      category: "energy",
+        "Curated platform facilitating connections between validated startups and verified angel investors. Includes pitch events, due diligence support, and structured investment processes with legal framework assistance.",
+      category: "funding",
       status: "completed",
       year: 2023,
-      location: "Madagascar",
-      beneficiaries: 1200,
-      budget: "$75,000",
+      location: "National (India)",
+      beneficiaries: 200,
+      budget: "₹30,00,000",
       impact: [
-        "15 schools now have electricity",
-        "1,200 students can study after dark",
-        "Computer labs operational",
-        "LED lighting in all classrooms",
+        "200+ startups connected with investors",
+        "₹100 crores in funding facilitated",
+        "150+ angel investors onboarded",
+        "85% funding success rate",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Solar Education Network",
+      image: "funding",
+      gallery: ["funding", "funding", "funding"],
+      partner: "Indian Angel Network",
       duration: "8 months",
-      fundingGoal: 750000,
-      fundsRaised: 750000,
+      fundingGoal: 3000000,
+      fundsRaised: 3000000,
     },
     {
       id: "6",
-      title: "Women's Empowerment Centers",
+      title: "Young Entrepreneur Community",
       description:
-        "Establishing training centers for women's economic empowerment and skills development.",
+        "Building local entrepreneur communities through events, workshops, and collaboration spaces.",
       longDescription:
-        "Comprehensive program creating training centers where women learn vocational skills, business management, financial literacy, and leadership. Includes microfinance support and market linkage programs.",
+        "Comprehensive community building program establishing local YEN chapters, organizing regular meetups, workshops, and collaborative workspaces. Focus on peer learning, knowledge sharing, and local business ecosystem development.",
       category: "community",
       status: "planned",
       year: 2025,
-      location: "Ethiopia & Rwanda",
+      location: "Tier-2 & Tier-3 Cities",
       beneficiaries: 2000,
-      budget: "$180,000",
+      budget: "₹60,00,000",
       impact: [
-        "4 training centers planned",
-        "2,000 women to receive training",
-        "Microfinance program for 500 women",
-        "Local market cooperatives establishment",
+        "20 local YEN chapters established",
+        "2,000+ young entrepreneurs engaged",
+        "100+ community events planned",
+        "Local business ecosystem strengthening",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Women's Development Coalition",
+      image: "community",
+      gallery: ["community", "community", "community"],
+      partner: "Youth Development Council",
       duration: "18 months",
-      fundingGoal: 1800000,
-      fundsRaised: 450000,
+      fundingGoal: 6000000,
+      fundsRaised: 1500000,
     },
     {
       id: "7",
-      title: "Emergency Food Distribution",
+      title: "Digital Marketing Bootcamp",
       description:
-        "Providing immediate food relief and nutrition support during crisis situations.",
+        "Intensive training program helping entrepreneurs master digital marketing and online business.",
       longDescription:
-        "Rapid response program providing nutritious meals, emergency food packages, and nutrition education in crisis-affected areas. Includes partnerships with local food producers and sustainable supply chains.",
-      category: "community",
+        "Comprehensive digital marketing education program covering social media marketing, content strategy, SEO, paid advertising, and e-commerce. Includes hands-on projects, real business case studies, and certification.",
+      category: "business",
       status: "ongoing",
       year: 2024,
-      location: "Somalia & South Sudan",
-      beneficiaries: 8000,
-      budget: "$250,000",
+      location: "Online & Hybrid",
+      beneficiaries: 1500,
+      budget: "₹25,00,000",
       impact: [
-        "8,000 people receiving food aid",
-        "Nutrition programs for 1,500 children",
-        "Local farmer partnerships established",
-        "Emergency response network created",
+        "1,500+ entrepreneurs trained",
+        "300+ businesses scaled online",
+        "80% revenue increase for participants",
+        "Digital transformation success stories",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "World Food Network",
+      image: "business",
+      gallery: ["business", "business", "business"],
+      partner: "Digital India Initiative",
       duration: "12 months",
       completion: 70,
       fundingGoal: 2500000,
@@ -322,29 +331,29 @@ export default function Projects() {
     },
     {
       id: "8",
-      title: "Digital Learning Initiative",
+      title: "Women Entrepreneurs Initiative",
       description:
-        "Implementing technology-based education solutions in remote schools.",
+        "Specialized program supporting women-led startups with funding, mentorship, and market access.",
       longDescription:
-        "Comprehensive digital education program including tablets, educational software, internet connectivity, and teacher training. Focus on STEM education and digital literacy for rural students.",
-      category: "education",
+        "Dedicated initiative supporting women entrepreneurs through specialized mentorship, funding opportunities, networking events, and market access programs. Focus on addressing unique challenges faced by women in business.",
+      category: "mentorship",
       status: "completed",
       year: 2022,
-      location: "Vietnam & Cambodia",
-      beneficiaries: 3500,
-      budget: "$120,000",
+      location: "Delhi & Kolkata",
+      beneficiaries: 500,
+      budget: "₹40,00,000",
       impact: [
-        "20 schools equipped with digital tools",
-        "3,500 students accessing online learning",
-        "100 teachers trained in digital pedagogy",
-        "Satellite internet connectivity established",
+        "500+ women entrepreneurs supported",
+        "200+ businesses launched",
+        "₹20 crores in funding raised",
+        "60% business survival rate",
       ],
-      image: "water",
-      gallery: ["water", "water", "water"],
-      partner: "Tech for Education",
+      image: "mentorship",
+      gallery: ["mentorship", "mentorship", "mentorship"],
+      partner: "Women Business Association",
       duration: "15 months",
-      fundingGoal: 1200000,
-      fundsRaised: 1200000,
+      fundingGoal: 4000000,
+      fundsRaised: 4000000,
     },
   ]);
 
@@ -361,7 +370,7 @@ export default function Projects() {
         description: newProject.description || "",
         longDescription:
           newProject.longDescription || newProject.description || "",
-        category: (newProject.category as ProjectCategory) || "water",
+        category: (newProject.category as ProjectCategory) || "networking",
         status: (newProject.status as ProjectStatus) || "planned",
         year: newProject.year || new Date().getFullYear(),
         location: newProject.location || "",
@@ -382,7 +391,7 @@ export default function Projects() {
         title: "",
         description: "",
         longDescription: "",
-        category: "water",
+        category: "networking",
         status: "planned",
         year: new Date().getFullYear(),
         location: "",
@@ -464,16 +473,15 @@ export default function Projects() {
         <div className="container">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Badge variant="secondary" className="mb-4">
-              Our Projects
+              Our Programs
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Creating Impact Through{" "}
-              <span className="text-primary">Meaningful Projects</span>
+              Empowering Entrepreneurs Through{" "}
+              <span className="text-primary">Strategic Programs</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Discover how we're transforming communities worldwide through
-              sustainable development projects that create lasting positive
-              change.
+              Discover how we're building the next generation of successful entrepreneurs 
+              through our comprehensive networking, mentorship, and business development programs.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
@@ -482,7 +490,7 @@ export default function Projects() {
                   {filteredProjects.length}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Total Projects
+                  Total Programs
                 </div>
               </div>
               <div className="space-y-2">
@@ -494,7 +502,7 @@ export default function Projects() {
                   {totalBeneficiaries.toLocaleString()}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Lives Impacted
+                  Entrepreneurs Impacted
                 </div>
               </div>
             </div>
@@ -508,7 +516,7 @@ export default function Projects() {
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="flex items-center space-x-2 text-center justify-center">
               <Filter className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">Filter Projects</h2>
+              <h2 className="text-xl font-semibold">Filter Programs</h2>
             </div>
 
             <div className="flex items-center justify-between mb-4">
@@ -517,7 +525,7 @@ export default function Projects() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search projects..."
+                    placeholder="Search programs..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -580,17 +588,17 @@ export default function Projects() {
                   <DialogTrigger asChild>
                     <Button className="ml-4">
                       <Plus className="h-4 w-4 mr-2" />
-                      Add Project
+                      Add Program
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                      <DialogTitle>Add New Project</DialogTitle>
+                      <DialogTitle>Add New Program</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="title">Project Title</Label>
+                          <Label htmlFor="title">Program Title</Label>
                           <Input
                             id="title"
                             value={newProject.title}
@@ -600,7 +608,7 @@ export default function Projects() {
                                 title: e.target.value,
                               }))
                             }
-                            placeholder="Enter project title"
+                            placeholder="Enter program title"
                           />
                         </div>
                         <div className="space-y-2">
@@ -639,7 +647,7 @@ export default function Projects() {
                               description: e.target.value,
                             }))
                           }
-                          placeholder="Brief project description"
+                          placeholder="Brief program description"
                         />
                       </div>
 
@@ -656,7 +664,7 @@ export default function Projects() {
                               longDescription: e.target.value,
                             }))
                           }
-                          placeholder="Detailed project description"
+                          placeholder="Detailed program description"
                           rows={4}
                         />
                       </div>
@@ -673,7 +681,7 @@ export default function Projects() {
                                 location: e.target.value,
                               }))
                             }
-                            placeholder="Project location"
+                            placeholder="Program location"
                           />
                         </div>
                         <div className="space-y-2">
@@ -782,9 +790,9 @@ export default function Projects() {
                         />
                       </div>
 
-                      <Button onClick={handleAddProject} className="w-full">
+                        <Button onClick={handleAddProject} className="w-full">
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Project
+                        Add Program
                       </Button>
                     </div>
                   </DialogContent>
@@ -801,9 +809,9 @@ export default function Projects() {
           {filteredProjects.length === 0 ? (
             <div className="text-center py-12">
               <Target className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No projects found</h3>
+              <h3 className="text-xl font-semibold mb-2">No programs found</h3>
               <p className="text-muted-foreground">
-                Try adjusting your filters to see more projects.
+                Try adjusting your filters to see more programs.
               </p>
             </div>
           ) : (
@@ -950,12 +958,11 @@ export default function Projects() {
         <div className="container text-center">
           <div className="max-w-3xl mx-auto space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
-              Want to Support Our Projects?
+              Want to Join Our Programs?
             </h2>
             <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              Join our mission to create lasting positive change. Your
-              membership helps fund these life-changing projects and empowers
-              communities worldwide.
+              Join our community of ambitious entrepreneurs. Your membership unlocks 
+              access to our exclusive programs, networking events, and business growth opportunities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button size="lg" variant="secondary" asChild>

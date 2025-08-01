@@ -1,12 +1,13 @@
 /**
  * Donation Slice - Donations state management
- * Handles donations, payment processing, and donation history
+ * Handles donations, payment processing, and donation history with authentication
  */
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import apiClient from '../../api/client';
 import { API_URLS, SUCCESS_MESSAGES, buildURL } from '../../api/config';
+import { getAuthHeaders, isAuthenticated } from '../../utils/tokenManager';
 import type { 
   DonationState, 
   Donation, 
@@ -42,6 +43,7 @@ export const createDonation = createAsyncThunk<
   'donation/create',
   async (donationData, { rejectWithValue }) => {
     try {
+      console.log("Creating donation with data:", donationData);
       const response = await apiClient.post<Donation>(
         API_URLS.DONATIONS.CREATE, 
         donationData
@@ -49,6 +51,8 @@ export const createDonation = createAsyncThunk<
 
       if (response.success && response.data) {
         toast.success(SUCCESS_MESSAGES.DONATION_CREATED);
+
+        console.log("Donation created successfully:", response.data);
         return response.data;
       } else {
         throw new Error(response.message || 'Failed to create donation');
@@ -105,7 +109,7 @@ export const verifyPayment = createAsyncThunk<
       );
 
       if (response.success && response.data) {
-        if (response.data.status === 'completed') {
+        if (response.data.paymentStatus === 'completed') {
           toast.success('Payment successful! Thank you for your donation.');
         }
         return response.data;
@@ -639,20 +643,20 @@ export const selectPaymentError = (state: { donation: DonationState }) => state.
 
 // Derived selectors
 export const selectDonationsByStatus = (status: string) => (state: { donation: DonationState }) =>
-  state.donation.donations.filter(donation => donation.status === status);
+  state.donation.donations.filter(donation => donation.paymentStatus === status);
 
 export const selectUserDonationsByStatus = (status: string) => (state: { donation: DonationState }) =>
-  state.donation.userDonations.filter(donation => donation.status === status);
+  state.donation.userDonations.filter(donation => donation.paymentStatus === status);
 
 export const selectCompletedDonations = (state: { donation: DonationState }) =>
-  state.donation.donations.filter(donation => donation.status === 'completed');
+  state.donation.donations.filter(donation => donation.paymentStatus === 'completed');
 
 export const selectPendingDonations = (state: { donation: DonationState }) =>
-  state.donation.donations.filter(donation => donation.status === 'pending');
+  state.donation.donations.filter(donation => donation.paymentStatus === 'pending');
 
 export const selectTotalDonationAmount = (state: { donation: DonationState }) =>
   state.donation.userDonations
-    .filter(d => d.status === 'completed')
+    .filter(d => d.paymentStatus === 'completed')
     .reduce((total, donation) => total + donation.amount, 0);
 
 // Export reducer as default

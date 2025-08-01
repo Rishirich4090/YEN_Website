@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { 
   User, 
   Shield, 
@@ -57,6 +57,7 @@ interface SignupFormData {
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { showSuccessToast, showErrorToast } = useToastHelpers();
   
@@ -95,17 +96,19 @@ export default function Login() {
   // Handle successful authentication
   useEffect(() => {
     if (auth.isAuthenticated && auth.user) {
-      const userRole = auth.user.role;
-      showSuccessToast(`Welcome back, ${auth.user.firstName} ${auth.user.lastName}!`);
+      console.log('🔄 Login: User authenticated, preparing redirect...', {
+        userRole: auth.user.role,
+        userEmail: auth.user.email,
+        redirectState: location.state
+      });
       
-      // Redirect based on role
-      if (userRole === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/member/dashboard");
-      }
+      showSuccessToast(`Welcome back, ${auth.user.email}!`);
+      
+      // Let the Router and ProtectedRoute handle the redirect logic
+      // This prevents the blinking issue caused by competing redirects
+      console.log('🔄 Login: Auth successful, letting Router handle navigation');
     }
-  }, [auth.isAuthenticated, auth.user, navigate, showSuccessToast]);
+  }, [auth.isAuthenticated, auth.user, showSuccessToast]);
 
   // Handle authentication errors
   useEffect(() => {

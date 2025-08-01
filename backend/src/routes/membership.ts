@@ -370,12 +370,27 @@ router.post('/extend/:membershipId', async (req: Request, res: Response) => {
 // POST /api/donation - Process donation
 router.post('/donation', async (req: Request, res: Response) => {
   try {
+    // Generate transaction ID if not provided
+    if (!req.body.transactionId) {
+      req.body.transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+    }
+
+    // Add device info from request
+    if (!req.body.deviceInfo) {
+      req.body.deviceInfo = {
+        userAgent: req.get('User-Agent'),
+        ipAddress: req.ip,
+        device: req.get('User-Agent')?.includes('Mobile') ? 'Mobile' : 'Desktop'
+      };
+    }
+
     const validatedData = donationSchema.parse(req.body);
 
+    // Create and save donation
     const donation = new Donation(validatedData);
     await donation.save();
 
-    // Generate and send certificate
+    // Generate and send certificate via email
     const certificateBuffer = certificateService.generateDonationCertificate({
       donorName: donation.donorName,
       amount: donation.amount,
@@ -385,6 +400,7 @@ router.post('/donation', async (req: Request, res: Response) => {
       project: donation.project?.toString()
     });
 
+    // Send certificate via email
     const emailSent = await emailService.sendDonationCertificate({
       donorName: donation.donorName,
       donorEmail: donation.donorEmail,
@@ -394,25 +410,45 @@ router.post('/donation', async (req: Request, res: Response) => {
       donationDate: donation.donationDate
     }, certificateBuffer);
 
+    // Update donation status
     if (emailSent) {
       donation.certificateSent = true;
+      donation.certificateSentDate = new Date();
       await donation.save();
     }
 
+    // Send thank you email
+    await donation.sendThankYouEmail();
+
     res.status(201).json({
       success: true,
-      message: 'Donation processed successfully!',
+      message: 'Donation processed successfully! Certificate sent to your email.',
       data: {
+        _id: donation._id,
         transactionId: donation.transactionId,
-        certificateSent: emailSent
+        amount: donation.amount,
+        currency: donation.currency,
+        certificateSent: emailSent,
+        donationDate: donation.donationDate,
+        paymentStatus: donation.paymentStatus
       }
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Donation processing error:', error);
+    
+    if (error.name === 'ZodError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: error.errors
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Failed to process donation'
+      message: 'Failed to process donation',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

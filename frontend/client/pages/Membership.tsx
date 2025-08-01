@@ -32,14 +32,8 @@ import {
   EyeOff
 } from "lucide-react";
 
-// Redux imports
-import { useAppDispatch, useAppSelector } from "../../src/hooks/redux";
-import { 
-  sendContactMessage,
-  selectContactLoading,
-  selectContactError,
-  clearError
-} from "../../src/redux/slices/contactSlice";
+// API and utilities
+import apiService from "../lib/apiService";
 import { useToastHelpers } from "../../src/components/providers/ToastProvider";
 import VerificationBadge from "@/components/VerificationBadge";
 
@@ -57,11 +51,9 @@ export default function Membership() {
   const [showPassword, setShowPassword] = useState(false);
   const [memberData, setMemberData] = useState<any>(null);
   const [loginData, setLoginData] = useState({ loginId: "", password: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Redux hooks
-  const dispatch = useAppDispatch();
-  const isSubmitting = useAppSelector((state) => state.contact?.isLoading || false);
-  const error = useAppSelector((state) => state.contact?.error || null);
+  // Toast helpers
   const { showSuccessToast, showErrorToast } = useToastHelpers();
 
   const [formData, setFormData] = useState<MembershipFormData>({
@@ -71,76 +63,63 @@ export default function Membership() {
     membershipType: "basic"
   });
 
-  // Clear errors on mount and unmount
-  useEffect(() => {
-    return () => {
-      if (error) {
-        dispatch(clearError());
-      }
-    };
-  }, [dispatch, error]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      // Send membership application through contact API
-      await dispatch(sendContactMessage({
+      // Use direct API call to create membership
+      const response = await apiService.createMembership({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        subject: `Membership Application - ${formData.membershipType}`,
-        message: `I would like to apply for ${formData.membershipType} membership. 
+        membershipType: formData.membershipType
+      });
 
-Membership Type: ${formData.membershipType.charAt(0).toUpperCase() + formData.membershipType.slice(1)}
-Phone: ${formData.phone}
+      if (response.success) {
+        setIsSubmitted(true);
+        showSuccessToast("Application Submitted! Check your email for login credentials.");
 
-Please process my application and send me the login credentials.
-
-Thank you!`
-      })).unwrap();
-
-      setIsSubmitted(true);
-      showSuccessToast("Application Submitted! Check your email for login credentials.");
-
-      // Switch to status tab after submission
-      setTimeout(() => {
-        setActiveTab("login");
-      }, 2000);
+        // Switch to status tab after submission
+        setTimeout(() => {
+          setActiveTab("login");
+        }, 2000);
+      } else {
+        throw new Error(response.message || "Failed to submit application");
+      }
 
     } catch (error: any) {
       console.error("Membership application failed:", error);
       showErrorToast(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
     const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/membership/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData)
-      });
+      const response = await apiService.memberLogin(loginData);
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.success) {
         setIsLoggedIn(true);
-        setMemberData(data.data.member);
-        localStorage.setItem('memberToken', data.data.token);
+        setMemberData(response.data.member);
+        localStorage.setItem('memberToken', response.data.token);
 
         showSuccessToast("Login successful! Welcome to your dashboard.");
 
         // Switch to dashboard tab
         setActiveTab("status");
       } else {
-        showErrorToast(data.message || "Login failed. Please check your credentials.");
+        showErrorToast(response.message || "Login failed. Please check your credentials.");
       }
     } catch (error: any) {
       console.error("Login failed:", error);
       showErrorToast("Login failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

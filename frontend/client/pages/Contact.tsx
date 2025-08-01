@@ -46,7 +46,10 @@ export default function Contact() {
     email: "",
     phone: "",
     subject: "General Inquiry",
-    message: ""
+    message: "",
+    category: "general" as "general" | "membership" | "donation" | "volunteer" | "support" | "feedback" | "partnership",
+    priority: "medium" as "low" | "medium" | "high" | "urgent",
+    source: "website" as "website" | "email" | "phone" | "social-media" | "event"
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -67,7 +70,10 @@ export default function Contact() {
         email: formData.email,
         phone: formData.phone,
         subject: formData.subject,
-        message: formData.message
+        message: formData.message,
+        category: formData.category,
+        priority: formData.priority,
+        source: formData.source
       })).unwrap();
 
       setIsSubmitted(true);
@@ -81,7 +87,10 @@ export default function Contact() {
           email: "", 
           phone: "", 
           subject: "General Inquiry",
-          message: ""
+          message: "",
+          category: "general",
+          priority: "medium", 
+          source: "website"
         });
       }, 3000);
     } catch (error) {
@@ -89,7 +98,7 @@ export default function Contact() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -101,77 +110,77 @@ export default function Contact() {
       icon: MapPin,
       title: "Address",
       details: [
-        "HopeHands NGO Headquarters",
-        "123 Hope Street, Suite 400",
-        "Global City, State 12345",
-        "United States"
+        "YEN Headquarters",
+        "Tech Hub, 4th Floor, Cyber City",
+        "Gurgaon, Haryana 122002",
+        "India"
       ]
     },
     {
       icon: Phone,
       title: "Phone",
       details: [
-        "Main: +1 (555) 123-4567",
-        "Emergency: +1 (555) 987-6543",
-        "Toll-free: 1-800-HOPE-NGO"
+        "Main: +91 11 4567-8900",
+        "Support: +91 11 4567-8901", 
+        "WhatsApp: +91 98765-43210"
       ]
     },
     {
       icon: Mail,
       title: "Email",
       details: [
-        "General: info@hopehands.org",
-        "Partnerships: partners@hopehands.org",
-        "Media: press@hopehands.org"
+        "General: hello@yen.org.in",
+        "Partnerships: partners@yen.org.in",
+        "Media: press@yen.org.in"
       ]
     },
     {
       icon: Clock,
-      title: "Office Hours",
+      title: "Office Hours", 
       details: [
-        "Monday - Friday: 9:00 AM - 6:00 PM",
-        "Saturday: 10:00 AM - 4:00 PM",
+        "Monday - Friday: 9:00 AM - 7:00 PM",
+        "Saturday: 10:00 AM - 5:00 PM",
         "Sunday: Closed",
-        "Emergency Line: 24/7"
+        "Online Support: 24/7"
       ]
     }
   ];
 
   const socialMedia = [
-    { icon: Facebook, name: "Facebook", url: "#", handle: "@HopeHandsNGO" },
-    { icon: Twitter, name: "Twitter", url: "#", handle: "@HopeHands" },
-    { icon: Instagram, name: "Instagram", url: "#", handle: "@hopehands_official" },
-    { icon: Linkedin, name: "LinkedIn", url: "#", handle: "HopeHands NGO" }
+    { icon: Facebook, name: "Facebook", url: "#", handle: "@YENIndia" },
+    { icon: Twitter, name: "Twitter", url: "#", handle: "@YEN_India" },
+    { icon: Instagram, name: "Instagram", url: "#", handle: "@yen_official" },
+    { icon: Linkedin, name: "LinkedIn", url: "#", handle: "Young Entrepreneur Network" }
   ];
 
   const offices = [
     {
-      region: "North America",
-      location: "New York, USA",
-      address: "123 Hope Street, Global City",
-      phone: "+1 (555) 123-4567",
-      email: "usa@hopehands.org"
+      region: "North India",
+      location: "Delhi NCR",
+      address: "Tech Hub, Cyber City, Gurgaon",
+      phone: "+91 11 4567-8900",
+      email: "delhi@yen.org.in"
     },
     {
-      region: "Europe",
-      location: "London, UK", 
-      address: "45 Charity Lane, London",
-      phone: "+44 20 1234 5678",
-      email: "europe@hopehands.org"
+      region: "West India",
+      location: "Mumbai, Maharashtra", 
+      address: "Business Center, Andheri East",
+      phone: "+91 22 4567-8900",
+      email: "mumbai@yen.org.in"
     },
     {
-      region: "Africa",
-      location: "Nairobi, Kenya",
-      address: "67 Development Ave, Nairobi",
-      phone: "+254 20 123 4567",
-      email: "africa@hopehands.org"
+      region: "South India",
+      location: "Bangalore, Karnataka",
+      address: "Innovation Hub, Electronic City",
+      phone: "+91 80 4567-8900",
+      email: "bangalore@yen.org.in"
     },
     {
-      region: "Asia Pacific",
-      location: "Mumbai, India",
-      address: "89 Hope Road, Mumbai",
-      phone: "+91 22 1234 5678", 
-      email: "asia@hopehands.org"
+      region: "East India",
+      location: "Kolkata, West Bengal",
+      address: "Tech Park, Salt Lake City",
+      phone: "+91 33 4567-8900", 
+      email: "kolkata@yen.org.in"
     }
   ];
 
@@ -183,11 +192,11 @@ export default function Contact() {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Badge variant="secondary" className="mb-4">Get in Touch</Badge>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Let's Work Together to{" "}
-              <span className="text-primary">Change Lives</span>
+              Let's Build Your Network{" "}
+              <span className="text-primary">Together</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Have questions about our projects? Want to partner with us? Looking to join our mission? We'd love to hear from you.
+              Have questions about entrepreneurship? Want to join our network? Looking for business partnerships? We'd love to connect with you.
             </p>
           </div>
         </div>
@@ -267,13 +276,73 @@ export default function Contact() {
                       </div>
                       
                       <div className="space-y-2">
+                        <Label htmlFor="subject">Subject *</Label>
+                        <select
+                          id="subject"
+                          name="subject"
+                          title="Select message subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          required
+                        >
+                          <option value="General Inquiry">General Inquiry</option>
+                          <option value="Membership">Membership</option>
+                          <option value="Partnership">Partnership Opportunity</option>
+                          <option value="Mentorship">Mentorship Program</option>
+                          <option value="Funding">Funding Support</option>
+                          <option value="Events">Events & Networking</option>
+                          <option value="Media">Media & Press</option>
+                          <option value="Technical Support">Technical Support</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="category">Category *</Label>
+                        <select
+                          id="category"
+                          name="category"
+                          title="Select message category"
+                          value={formData.category}
+                          onChange={handleChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          required
+                        >
+                          <option value="general">General</option>
+                          <option value="membership">Membership</option>
+                          <option value="donation">Donation</option>
+                          <option value="volunteer">Volunteer</option>
+                          <option value="support">Support</option>
+                          <option value="feedback">Feedback</option>
+                          <option value="partnership">Partnership</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="priority">Priority</Label>
+                        <select
+                          id="priority"
+                          name="priority"
+                          title="Select message priority"
+                          value={formData.priority}
+                          onChange={handleChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                          <option value="urgent">Urgent</option>
+                        </select>
+                      </div>
+                      
+                      <div className="space-y-2">
                         <Label htmlFor="message">Message *</Label>
                         <Textarea
                           id="message"
                           name="message"
                           value={formData.message}
                           onChange={handleChange}
-                          placeholder="Tell us how we can help you..."
+                          placeholder="Tell us about your entrepreneurial journey or how we can help you..."
                           rows={6}
                           required
                         />
@@ -386,6 +455,7 @@ export default function Contact() {
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.309!2d-74.0060!3d40.7128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjEiTiA3NMKwMDAnMjEuNiJX!5e0!3m2!1sen!2sus!4v1234567890"
                   width="100%"
                   height="100%"
+                  title="HopeHands NGO Headquarters Location"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
@@ -426,7 +496,7 @@ export default function Contact() {
             <Badge variant="outline">Global Presence</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">Our Offices Worldwide</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              With offices across four continents, we're always close to the communities we serve.
+              With presence across major business hubs in India, we're always close to the entrepreneurial communities we serve.
             </p>
           </div>
 
@@ -461,20 +531,20 @@ export default function Contact() {
         <div className="container text-center">
           <div className="max-w-3xl mx-auto space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
-              Ready to Make a Difference?
+              Ready to Expand Your Network?
             </h2>
             <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              Whether you want to volunteer, partner with us, or support our cause, we're here to help you get involved.
+              Whether you want to join our community, partner with us, or access mentorship, we're here to help you grow your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button size="lg" variant="secondary" asChild>
                 <a href="/membership">
-                  Join Our Mission
+                  Join Our Network
                   <Heart className="ml-2 h-4 w-4" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-                <a href="/projects">View Our Projects</a>
+                <a href="/projects">View Our Programs</a>
               </Button>
             </div>
           </div>

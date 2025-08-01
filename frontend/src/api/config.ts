@@ -20,7 +20,7 @@ const getBaseURL = (): string => {
 // API Configuration
 export const API_CONFIG = {
   BASE_URL: getBaseURL(),
-  API_VERSION: '/api/',
+  API_VERSION: '/api',
   TIMEOUT: 30000, // 30 seconds
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000, // 1 second
@@ -70,13 +70,15 @@ export const API_URLS = {
     CREATE: '/donations',
     GET_ALL: '/donations',
     GET_BY_ID: '/donations/:id',
-    GET_BY_USER: '/donations/user/:userId',
-    UPDATE: '/donations/:id',
-    DELETE: '/donations/:id',
-    STATISTICS: '/donations/statistics',
+    GET_USER_DONATIONS: '/donations/user/:email',
+    GET_STATS: '/donations/stats/summary',
+    UPDATE_STATUS: '/donations/:id/status',
+    GENERATE_CERTIFICATE: '/donations/:id/certificate',
+    INITIATE_PAYMENT: '/donations/:id/payment/initiate',
+    VERIFY_PAYMENT: '/donations/:id/payment/verify',
+    CANCEL: '/donations/:id',
     RECURRING: '/donations/recurring',
     CANCEL_RECURRING: '/donations/recurring/:id/cancel',
-    GENERATE_RECEIPT: '/donations/:id/receipt',
   },
   
   // Event endpoints
@@ -190,7 +192,10 @@ export const SUCCESS_MESSAGES = {
   PROFILE_UPDATED: 'Profile updated successfully!',
   PASSWORD_CHANGED: 'Password changed successfully!',
   MESSAGE_SENT: 'Message sent successfully!',
+  DONATION_CREATED: 'Donation created successfully!',
   DONATION_SUCCESS: 'Donation completed successfully!',
+  PAYMENT_SUCCESS: 'Payment processed successfully!',
+  CERTIFICATE_GENERATED: 'Certificate generated successfully!',
   EVENT_REGISTERED: 'Successfully registered for event!',
   EVENT_UNREGISTERED: 'Successfully unregistered from event!',
   SETTINGS_SAVED: 'Settings saved successfully!',
@@ -280,7 +285,7 @@ export const ENDPOINTS = {
   // Donation endpoints
   CREATE_DONATION: buildURL(API_URLS.DONATIONS.CREATE),
   GET_DONATIONS: buildURL(API_URLS.DONATIONS.GET_ALL),
-  DONATION_STATS: buildURL(API_URLS.DONATIONS.STATISTICS),
+  DONATION_STATS: buildURL(API_URLS.DONATIONS.GET_STATS),
   
   // Event endpoints
   GET_EVENTS: buildURL(API_URLS.EVENTS.GET_ALL),
