@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Debug Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5; 
+        }
+        .debug-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .debug-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+        }
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin: 5px; 
+        }
+        button:hover { background: #0056b3; }
+        .output { 
+            background: #f8f9fa; 
+            border: 1px solid #dee2e6; 
+            padding: 10px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            white-space: pre-wrap; 
+            max-height: 300px; 
+            overflow-y: auto; 
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 Authentication Debug Test</h1>
+        
+        <div class="debug-section">
+            <h2>Current localStorage State</h2>
+            <button onclick="checkLocalStorage()">Check localStorage</button>
+            <button onclick="clearLocalStorage()">Clear localStorage</button>
+            <div id="localStorage-output" class="output"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Test Login API</h2>
+            <button onclick="testLogin()">Test Login</button>
+            <button onclick="testLoginAndSave()">Test Login + Save to localStorage</button>
+            <div id="login-output" class="output"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Redux State Test</h2>
+            <button onclick="openReduxDevTools()">Open Redux DevTools</button>
+            <button onclick="checkReduxState()">Check Redux State</button>
+            <div id="redux-output" class="output"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Application Navigation</h2>
+            <button onclick="goToLogin()">Go to Login Page</button>
+            <button onclick="goToApp()">Go to Main App</button>
+            <button onclick="openInNewTab('http://localhost:8081')">Open App in New Tab</button>
+        </div>
+    </div>
+
+    <script>
+        // Utility functions
+        function log(element, message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            element.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clearOutput(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        // localStorage functions
+        function checkLocalStorage() {
+            const output = document.getElementById('localStorage-output');
+            clearOutput('localStorage-output');
+            
+            log(output, '--- Checking localStorage ---', 'info');
+            
+            // Check auth-related keys
+            const authKeys = [
+                'hopehands_auth_token',
+                'hopehands_user_data', 
+                'hopehands_refresh_token',
+                'persist:ngo-platform-root'
+            ];
+            
+            authKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    log(output, `✅ ${key}: ${value.substring(0, 100)}${value.length > 100 ? '...' : ''}`, 'success');
+                    
+                    // Try to parse JSON
+                    try {
+                        const parsed = JSON.parse(value);
+                        log(output, `   📝 Parsed: ${JSON.stringify(parsed, null, 2)}`, 'info');
+                    } catch (e) {
+                        log(output, `   📝 Raw string value`, 'info');
+                    }
+                } else {
+                    log(output, `❌ ${key}: Not found`, 'error');
+                }
+            });
+            
+            // Check redux persist data specifically
+            const persistedData = localStorage.getItem('persist:ngo-platform-root');
+            if (persistedData) {
+                try {
+                    const parsed = JSON.parse(persistedData);
+                    if (parsed.auth) {
+                        const authData = JSON.parse(parsed.auth);
+                        log(output, `🔐 Redux Auth State: ${JSON.stringify(authData, null, 2)}`, 'info');
+                    }
+                } catch (e) {
+                    log(output, `❌ Error parsing persisted data: ${e.message}`, 'error');
+                }
+            }
+        }
+
+        function clearLocalStorage() {
+            const output = document.getElementById('localStorage-output');
+            
+            const authKeys = [
+                'hopehands_auth_token',
+                'hopehands_user_data', 
+                'hopehands_refresh_token',
+                'persist:ngo-platform-root'
+            ];
+            
+            authKeys.forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            log(output, '🧹 localStorage cleared!', 'success');
+            checkLocalStorage();
+        }
+
+        // API test functions
+        async function testLogin() {
+            const output = document.getElementById('login-output');
+            clearOutput('login-output');
+            
+            log(output, '--- Testing Login API ---', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'arunkmrkhata@gmail.com',
+                        password: 'Amit@123'
+                    })
+                });
+                
+                const data = await response.json();
+                log(output, `✅ API Response: ${JSON.stringify(data, null, 2)}`, 'success');
+                
+                if (data.success && data.user && data.token) {
+                    log(output, `✅ Login successful! User: ${data.user.email}, Role: ${data.user.role}`, 'success');
+                } else {
+                    log(output, `❌ Login failed: ${data.message || 'Unknown error'}`, 'error');
+                }
+                
+            } catch (error) {
+                log(output, `❌ API Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLoginAndSave() {
+            const output = document.getElementById('login-output');
+            
+            await testLogin();
+            
+            try {
+                log(output, '--- Saving to localStorage ---', 'info');
+                
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'arunkmrkhata@gmail.com',
+                        password: 'Amit@123'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.user && data.token) {
+                    // Save to localStorage manually
+                    localStorage.setItem('hopehands_auth_token', data.token);
+                    localStorage.setItem('hopehands_user_data', JSON.stringify(data.user));
+                    
+                    // Create Redux persist structure
+                    const reduxState = {
+                        user: data.user,
+                        token: data.token,
+                        isAuthenticated: true,
+                        isLoading: false,
+                        error: null
+                    };
+                    
+                    const persistData = {
+                        auth: JSON.stringify(reduxState),
+                        _persist: JSON.stringify({
+                            version: -1,
+                            rehydrated: true
+                        })
+                    };
+                    
+                    localStorage.setItem('persist:ngo-platform-root', JSON.stringify(persistData));
+                    
+                    log(output, '✅ Successfully saved to localStorage!', 'success');
+                    log(output, '🔄 Checking saved data...', 'info');
+                    
+                    // Verify saved data
+                    setTimeout(() => {
+                        checkLocalStorage();
+                    }, 500);
+                }
+                
+            } catch (error) {
+                log(output, `❌ Save Error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkReduxState() {
+            const output = document.getElementById('redux-output');
+            clearOutput('redux-output');
+            
+            log(output, '--- Redux State Check ---', 'info');
+            log(output, 'ℹ️  To check Redux state, open the main app and use Redux DevTools', 'info');
+            log(output, 'ℹ️  Or check the browser console for Redux logs', 'info');
+        }
+
+        function openReduxDevTools() {
+            const output = document.getElementById('redux-output');
+            log(output, '🔧 Opening Redux DevTools in new tab...', 'info');
+            window.open('http://localhost:8081', '_blank');
+        }
+
+        // Navigation functions
+        function goToLogin() {
+            window.location.href = 'http://localhost:8081/login';
+        }
+
+        function goToApp() {
+            window.location.href = 'http://localhost:8081';
+        }
+
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Auth Debug Tool Loaded');
+            checkLocalStorage();
+        });
+    </script>
+</body>
+</html>

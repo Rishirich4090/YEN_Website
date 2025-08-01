@@ -42,15 +42,58 @@ export const membershipSchema = z.object({
     membershipType: z.enum(['basic', 'premium', 'lifetime'])
 });
 export const donationSchema = z.object({
+    // Donor Information
     donorName: z.string().min(1, 'Donor name is required').trim(),
     donorEmail: z.string().email('Please enter a valid email address'),
-    amount: z.number().min(1, 'Amount must be greater than 0'),
+    donorPhone: z.string().optional(),
+    donorAddress: z.object({
+        street: z.string().optional(),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        zipCode: z.string().optional(),
+        country: z.string().optional()
+    }).optional(),
+    // Donation Details
+    amount: z.number().min(0.01, 'Amount must be greater than 0'),
     currency: z.string().default('USD'),
-    donationType: z.enum(['one-time', 'monthly', 'annual']).default('one-time'),
-    paymentMethod: z.string().min(1, 'Payment method is required'),
-    transactionId: z.string().min(1, 'Transaction ID is required'),
+    donationType: z.enum(['one-time', 'monthly', 'quarterly', 'annual', 'recurring']).default('one-time'),
+    recurringDetails: z.object({
+        frequency: z.enum(['monthly', 'quarterly', 'annual']).optional(),
+        nextPaymentDate: z.string().optional(), // Keep as string for JSON parsing
+        endDate: z.string().optional(), // Keep as string for JSON parsing
+        isActive: z.boolean().default(true)
+    }).optional(),
+    // Payment Information
+    paymentMethod: z.enum(['credit-card', 'debit-card', 'paypal', 'bank-transfer', 'cryptocurrency', 'check', 'cash']),
+    paymentProvider: z.enum(['stripe', 'paypal', 'razorpay', 'square', 'manual']).default('stripe'),
+    transactionId: z.string().optional(), // Made optional since backend generates it
+    // Project/Campaign Information
     project: z.string().optional(),
-    message: z.string().max(500, 'Message cannot exceed 500 characters').optional(),
-    isAnonymous: z.boolean().default(false)
+    campaign: z.string().optional(),
+    designation: z.enum(['general', 'specific-project', 'emergency-fund', 'education', 'healthcare', 'environment']).default('general'),
+    // Donor Interaction
+    message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional(),
+    isAnonymous: z.boolean().default(false),
+    publicDisplay: z.boolean().default(true),
+    donorConsent: z.object({
+        marketing: z.boolean().default(false),
+        updates: z.boolean().default(true),
+        newsletter: z.boolean().default(false),
+        dataProcessing: z.boolean().refine(val => val === true, 'Data processing consent is required')
+    }),
+    // Tracking and Analytics
+    source: z.enum(['website', 'mobile-app', 'email-campaign', 'social-media', 'event', 'direct-mail', 'referral']).default('website'),
+    referralSource: z.string().optional(),
+    utmSource: z.string().optional(),
+    utmMedium: z.string().optional(),
+    utmCampaign: z.string().optional(),
+    deviceInfo: z.object({
+        userAgent: z.string().optional(),
+        ipAddress: z.string().optional(),
+        device: z.string().optional(),
+        browser: z.string().optional()
+    }).optional(),
+    // Additional fields for processing
+    panNumber: z.string().optional()
 });
 //# sourceMappingURL=validation.js.map

@@ -46,7 +46,10 @@ export default function Contact() {
     email: "",
     phone: "",
     subject: "General Inquiry",
-    message: ""
+    message: "",
+    category: "general" as "general" | "membership" | "donation" | "volunteer" | "support" | "feedback" | "partnership",
+    priority: "medium" as "low" | "medium" | "high" | "urgent",
+    source: "website" as "website" | "email" | "phone" | "social-media" | "event"
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -67,7 +70,10 @@ export default function Contact() {
         email: formData.email,
         phone: formData.phone,
         subject: formData.subject,
-        message: formData.message
+        message: formData.message,
+        category: formData.category,
+        priority: formData.priority,
+        source: formData.source
       })).unwrap();
 
       setIsSubmitted(true);
@@ -81,7 +87,10 @@ export default function Contact() {
           email: "", 
           phone: "", 
           subject: "General Inquiry",
-          message: ""
+          message: "",
+          category: "general",
+          priority: "medium", 
+          source: "website"
         });
       }, 3000);
     } catch (error) {
@@ -271,6 +280,7 @@ export default function Contact() {
                         <select
                           id="subject"
                           name="subject"
+                          title="Select message subject"
                           value={formData.subject}
                           onChange={handleChange}
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -284,6 +294,44 @@ export default function Contact() {
                           <option value="Events">Events & Networking</option>
                           <option value="Media">Media & Press</option>
                           <option value="Technical Support">Technical Support</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="category">Category *</Label>
+                        <select
+                          id="category"
+                          name="category"
+                          title="Select message category"
+                          value={formData.category}
+                          onChange={handleChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          required
+                        >
+                          <option value="general">General</option>
+                          <option value="membership">Membership</option>
+                          <option value="donation">Donation</option>
+                          <option value="volunteer">Volunteer</option>
+                          <option value="support">Support</option>
+                          <option value="feedback">Feedback</option>
+                          <option value="partnership">Partnership</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="priority">Priority</Label>
+                        <select
+                          id="priority"
+                          name="priority"
+                          title="Select message priority"
+                          value={formData.priority}
+                          onChange={handleChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                          <option value="urgent">Urgent</option>
                         </select>
                       </div>
                       
@@ -407,6 +455,7 @@ export default function Contact() {
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.309!2d-74.0060!3d40.7128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjEiTiA3NMKwMDAnMjEuNiJX!5e0!3m2!1sen!2sus!4v1234567890"
                   width="100%"
                   height="100%"
+                  title="HopeHands NGO Headquarters Location"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"

@@ -11,6 +11,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Redux Providers
 import { ReduxProvider } from "../src/components/providers/ReduxProvider";
 import { ToastProvider } from "../src/components/providers/ToastProvider";
+import { AuthProvider } from "../src/contexts/AuthContext";
+
+// Route Protection
+import ProtectedRoute, { AdminRoute, MemberRoute, PublicRoute } from "../src/components/ProtectedRoute";
 
 // Pages
 import Index from "./pages/Index";
@@ -37,21 +41,34 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/membership" element={<Membership />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/member/dashboard" element={<EnhancedMemberDashboard />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/profile" element={<AdminProfile />} />
-              <Route path="/donate" element={<Donation />} />
-              <Route path="*" element={<NotFound />} />
-              <Route path="/dummy-data" element={<DummyDataSender />} />
-            </Routes>
+            <AuthProvider>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
+                <Route path="/about" element={<PublicRoute><About /></PublicRoute>} />
+                <Route path="/projects" element={<PublicRoute><Projects /></PublicRoute>} />
+                <Route path="/contact" element={<PublicRoute><Contact /></PublicRoute>} />
+                <Route path="/membership" element={<PublicRoute><Membership /></PublicRoute>} />
+                <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+                <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
+                
+                {/* Protected Routes - Require Authentication */}
+                <Route path="/donate" element={<ProtectedRoute><Donation /></ProtectedRoute>} />
+                
+                {/* Member-Only Routes */}
+                <Route path="/member/dashboard" element={<MemberRoute><EnhancedMemberDashboard /></MemberRoute>} />
+                
+                {/* Admin-Only Routes */}
+                <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+                <Route path="/admin/profile" element={<AdminRoute><AdminProfile /></AdminRoute>} />
+                
+                {/* Development/Testing Routes */}
+                <Route path="/dummy-data" element={<DummyDataSender />} />
+                
+                {/* 404 Route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>

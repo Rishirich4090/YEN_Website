@@ -77,7 +77,9 @@ export interface ContactFormData {
   phone?: string;
   subject: string;
   message: string;
-  category?: string;
+  category?: 'general' | 'membership' | 'donation' | 'volunteer' | 'support' | 'feedback' | 'partnership';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  source?: 'website' | 'email' | 'phone' | 'social-media' | 'event';
 }
 
 // Donation Types
@@ -234,6 +236,9 @@ export interface DonationFormData {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  
+  // Tax Information
+  panNumber?: string;
 }
 
 // Event Types

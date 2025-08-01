@@ -19,14 +19,15 @@ import storage from 'redux-persist/lib/storage'; // localStorage
 import authReducer from '../redux/slices/authSlice';
 import contactReducer from '../redux/slices/contactSlice';
 import donationReducer from '../redux/slices/donationSlice';
+import membershipReducer from '../redux/slices/membershipSlice';
 import eventReducer from '../redux/slices/eventSlice';
 import chatReducer from '../redux/slices/chatSlice';
 
 // Development middleware for logging
 const createLoggerMiddleware = (): Middleware => {
-  return (store) => (next) => (action) => {
+  return (store) => (next) => (action: any) => {
     if (process.env.NODE_ENV === 'development') {
-      console.group(`🔄 Redux Action: ${action.type}`);
+      console.group(`🔄 Redux Action: ${action.type || 'Unknown'}`);
       console.log('Previous State:', store.getState());
       console.log('Action:', action);
     }
@@ -47,7 +48,20 @@ const persistConfig = {
   key: 'ngo-platform-root',
   storage,
   whitelist: ['auth'], // Only persist auth state for security
-  blacklist: ['contact', 'donation', 'event', 'chat'], // Don't persist these for fresh data
+  blacklist: ['contact', 'donation', 'membership', 'event', 'chat'], // Don't persist these for fresh data
+  transforms: [
+    // Transform to ensure proper serialization
+    {
+      in: (inboundState: any, key: string) => {
+        // console.log('Persist IN:', key, inboundState);
+        return inboundState;
+      },
+      out: (outboundState: any, key: string) => {
+        // console.log('Persist OUT:', key, outboundState);
+        return outboundState;
+      },
+    },
+  ],
 };
 
 // Combine all reducers
@@ -55,6 +69,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   contact: contactReducer,
   donation: donationReducer,
+  membership: membershipReducer,
   event: eventReducer,
   chat: chatReducer,
 });
@@ -98,6 +113,7 @@ export type AppDispatch = typeof store.dispatch;
 export type AuthState = RootState['auth'];
 export type ContactState = RootState['contact'];
 export type DonationState = RootState['donation'];
+export type MembershipState = RootState['membership'];
 export type EventState = RootState['event'];
 export type ChatState = RootState['chat'];
 

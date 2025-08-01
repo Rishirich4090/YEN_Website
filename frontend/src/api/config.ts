@@ -20,7 +20,7 @@ const getBaseURL = (): string => {
 // API Configuration
 export const API_CONFIG = {
   BASE_URL: getBaseURL(),
-  API_VERSION: '/api/',
+  API_VERSION: '/api',
   TIMEOUT: 30000, // 30 seconds
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000, // 1 second

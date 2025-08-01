@@ -1,6 +1,6 @@
 /**
  * Auth Slice - Authentication state management
- * Handles login, register, logout, and user profile management
+ * Handles login, register, logout, and user profile management with role-based redirects
  */
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import apiClient from '../../api/client';
 import { API_URLS, SUCCESS_MESSAGES, buildURL } from '../../api/config';
 import { authSession, userStorage, tokenStorage } from '../../utils/localStorage';
+import { getAuthHeaders } from '../../utils/tokenManager';
 import type { 
   AuthState, 
   User, 
@@ -28,10 +29,10 @@ const initialState: AuthState = {
 // Async thunks
 
 /**
- * Login user
+ * Login user with role-based redirect support
  */
 export const loginUser = createAsyncThunk<
-  { user: User; token: string; refreshToken?: string },
+  { user: User; token: string; refreshToken?: string; redirectPath?: string },
   LoginCredentials,
   { rejectValue: string }
 >(
@@ -44,16 +45,29 @@ export const loginUser = createAsyncThunk<
         refreshToken?: string;
       }>(API_URLS.AUTH.LOGIN, credentials);
 
+      // Handle the API response structure  
       if (response.success && response.data) {
         const { user, token, refreshToken } = response.data;
+        
+        if (!user || !token) {
+          throw new Error('Invalid response: missing user or token');
+        }
         
         // Save auth session
         authSession.saveSession(token, user, refreshToken);
         
+        // Determine redirect path based on user role
+        let redirectPath = '/';
+        if (user.role === 'admin') {
+          redirectPath = '/admin/dashboard';
+        } else if (user.role === 'member') {
+          redirectPath = '/member/dashboard';
+        }
+        
         // Show success message
         toast.success(SUCCESS_MESSAGES.LOGIN_SUCCESS);
         
-        return { user, token, refreshToken };
+        return { user, token, refreshToken, redirectPath };
       } else {
         throw new Error(response.message || 'Login failed');
       }
@@ -330,10 +344,25 @@ export const authSlice = createSlice({
     
     // Initialize auth from storage (for app startup)
     initializeAuth: (state) => {
+      console.log('🔄 Redux: Initializing auth from localStorage...');
+      
       const session = authSession.getSession();
+      console.log('🔄 Redux: Session data:', {
+        hasToken: !!session.token,
+        hasUser: !!session.user,
+        userEmail: session.user?.email,
+        isAuthenticated: authSession.isAuthenticated()
+      });
+      
       state.user = session.user;
       state.token = session.token;
       state.isAuthenticated = authSession.isAuthenticated();
+      
+      console.log('🔄 Redux: Auth state initialized:', {
+        user: state.user?.email,
+        hasToken: !!state.token,
+        isAuthenticated: state.isAuthenticated
+      });
     },
   },
   extraReducers: (builder) => {
@@ -344,11 +373,17 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log('🔄 Auth Login Fulfilled:', action.payload);
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
         state.error = null;
+        console.log('🔄 Auth State Updated:', { 
+          user: state.user?.email, 
+          token: !!state.token, 
+          isAuthenticated: state.isAuthenticated 
+        });
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;

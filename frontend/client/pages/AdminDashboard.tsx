@@ -25,10 +25,8 @@ import {
 } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateMembershipCertificate } from "@/lib/certificateGenerator";
-import { chatService } from "@/lib/chatService";
-import { donationService, type DonationData } from "@/lib/donationService";
-import { generateDonationCertificateForData } from "@/lib/donationCertificateGenerator";
+import apiService from "../lib/apiService";
+import { useToastHelpers } from "../../src/components/providers/ToastProvider";
 import {
   Shield,
   Users,
@@ -59,6 +57,65 @@ import {
   IndianRupee,
   CreditCard,
 } from "lucide-react";
+
+interface ContactMessage {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  status: 'new' | 'in-progress' | 'resolved' | 'spam';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  category: 'general' | 'membership' | 'donation' | 'volunteer' | 'support' | 'feedback' | 'partnership';
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Donation {
+  _id: string;
+  donorName: string;
+  donorEmail: string;
+  donorPhone?: string;
+  amount: number;
+  currency: string;
+  donationType: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  transactionId: string;
+  donationDate: string;
+  message?: string;
+  isAnonymous: boolean;
+  designation: string;
+  certificateSent: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Member {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  membershipId: string;
+  membershipType: string;
+  approvalStatus: string;
+  hasVerificationBadge: boolean;
+  joinDate: string;
+  membershipStartDate?: string;
+  membershipEndDate?: string;
+  isActive: boolean;
+  certificateSent: boolean;
+}
+
+interface DashboardStats {
+  totalDonations: number;
+  totalAmount: number;
+  totalMembers: number;
+  pendingMembers: number;
+  totalMessages: number;
+  unreadMessages: number;
+}
 
 interface User {
   id: string;
@@ -114,13 +171,46 @@ interface Event {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  
+  // Helper functions
+  const formatAmount = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+    }).format(amount);
+  };
+
+  const generateMembershipCertificate = async (member: any) => {
+    console.log('Generating membership certificate for:', member);
+    // TODO: Implement certificate generation
+  };
+
+  const generateDonationCertificateForData = (donation: Donation) => {
+    console.log('Generating donation certificate for:', donation);
+    // TODO: Implement donation certificate generation
+  };
+
+  const chatService = {
+    sendAnnouncement: (message: string, audience: string) => {
+      console.log('Sending announcement:', message, 'to:', audience);
+      // TODO: Implement chat service
+    }
+  };
+
   const [activeTab, setActiveTab] = useState("overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [donations, setDonations] = useState<DonationData[]>([]);
-  const [donationStats, setDonationStats] = useState(
-    donationService.getStats(),
-  );
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [donationStats, setDonationStats] = useState<DashboardStats>({
+    totalDonations: 0,
+    totalAmount: 0,
+    totalMembers: 0,
+    pendingMembers: 0,
+    totalMessages: 0,
+    unreadMessages: 0
+  });
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: "",
     message: "",
@@ -342,21 +432,37 @@ export default function AdminDashboard() {
       return;
     }
 
-    // Initialize donations
-    setDonations(donationService.getAllDonations());
-    setDonationStats(donationService.getStats());
-
-    // Listen for donation updates
-    const unsubscribeDonations = donationService.onDonationUpdate(
-      (updatedDonations) => {
-        setDonations(updatedDonations);
-        setDonationStats(donationService.getStats());
-      },
-    );
-
-    return () => {
-      unsubscribeDonations();
+    // Load data from API
+    const loadData = async () => {
+      try {
+        const [donationsResponse, messagesResponse] = await Promise.all([
+          apiService.getDonations(),
+          apiService.getContactMessages()
+        ]);
+        
+        const donationsData = donationsResponse.success ? donationsResponse.data : [];
+        const messagesData = messagesResponse.success ? messagesResponse.data : [];
+        
+        setDonations(donationsData || []);
+        setMessages(messagesData || []);
+        
+        // Calculate stats
+        const stats: DashboardStats = {
+          totalDonations: donationsData?.length || 0,
+          totalAmount: donationsData?.reduce((sum, d) => sum + d.amount, 0) || 0,
+          totalMembers: 0, // TODO: Update when users endpoint exists
+          pendingMembers: 0, // TODO: Update when users endpoint exists
+          totalMessages: messagesData?.length || 0,
+          unreadMessages: messagesData?.filter(m => m.status === 'new').length || 0
+        };
+        setDonationStats(stats);
+      } catch (error) {
+        console.error('Failed to load data:', error);
+        // Simple console error for now
+      }
     };
+    
+    loadData();
   }, [navigate]);
 
   const handleLogout = () => {
@@ -939,7 +1045,7 @@ export default function AdminDashboard() {
                     <div className="space-y-3">
                       {donations.slice(0, 4).map((donation) => (
                         <div
-                          key={donation.id}
+                          key={donation._id}
                           className="flex items-center space-x-3 text-sm"
                         >
                           <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ngo-purple-light">
@@ -953,7 +1059,7 @@ export default function AdminDashboard() {
                                   : donation.donorName}
                               </strong>{" "}
                               donated{" "}
-                              {donationService.formatAmount(donation.amount)}
+                              {formatAmount(donation.amount)}
                             </p>
                             <p className="text-xs text-muted-foreground">
                               {donation.donationDate}
@@ -1347,7 +1453,7 @@ export default function AdminDashboard() {
                   <CardContent className="p-6 text-center">
                     <IndianRupee className="h-8 w-8 text-primary mx-auto mb-2" />
                     <p className="text-2xl font-bold">
-                      {donationService.formatAmount(donationStats.totalAmount)}
+                      {formatAmount(donationStats.totalAmount)}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Total Raised
@@ -1358,7 +1464,7 @@ export default function AdminDashboard() {
                   <CardContent className="p-6 text-center">
                     <Users className="h-8 w-8 text-primary mx-auto mb-2" />
                     <p className="text-2xl font-bold">
-                      {donationStats.donorCount}
+                      {donationStats.totalDonations}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Unique Donors
@@ -1369,8 +1475,8 @@ export default function AdminDashboard() {
                   <CardContent className="p-6 text-center">
                     <Target className="h-8 w-8 text-primary mx-auto mb-2" />
                     <p className="text-2xl font-bold">
-                      {donationService.formatAmount(
-                        donationStats.averageDonation,
+                      {formatAmount(
+                        donationStats.totalAmount / Math.max(donationStats.totalDonations, 1)
                       )}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -1392,7 +1498,7 @@ export default function AdminDashboard() {
                   <div className="space-y-4">
                     {donations.slice(0, 10).map((donation) => (
                       <div
-                        key={donation.id}
+                        key={donation._id}
                         className="flex items-center justify-between p-4 border rounded-lg"
                       >
                         <div className="flex items-center space-x-4">
@@ -1406,7 +1512,7 @@ export default function AdminDashboard() {
                                 : donation.donorName}
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                              {donation.email} • {donation.purpose}
+                              {donation.donorEmail} • {donation.donationType}
                             </p>
                             <p className="text-xs text-muted-foreground">
                               {donation.donationDate} • via{" "}
@@ -1416,29 +1522,25 @@ export default function AdminDashboard() {
                         </div>
                         <div className="text-right space-y-1">
                           <p className="text-lg font-bold text-ngo-purple">
-                            {donationService.formatAmount(donation.amount)}
+                            {formatAmount(donation.amount)}
                           </p>
                           <div className="flex items-center space-x-2">
                             <Badge
                               variant={
-                                donation.certificateGenerated
+                                donation.certificateSent
                                   ? "secondary"
                                   : "destructive"
                               }
                               className="text-xs"
                             >
-                              {donation.certificateGenerated
+                              {donation.certificateSent
                                 ? "Certificate Generated"
                                 : "Certificate Pending"}
                             </Badge>
-                            {donation.memberAccountCreated && (
-                              <Badge variant="outline" className="text-xs">
-                                Member Created
-                              </Badge>
-                            )}
+                            {/* Account created badge would be in member records, not donations */}
                           </div>
                           <div className="flex space-x-1">
-                            {donation.certificateGenerated && (
+                            {donation.certificateSent && (
                               <Button
                                 size="sm"
                                 variant="ghost"

@@ -34,7 +34,8 @@ import {
   Lock,
   Shield,
   Award,
-  UserPlus
+  UserPlus,
+  AlertCircle
 } from "lucide-react";
 
 // Redux imports
@@ -51,6 +52,8 @@ import {
   selectPaymentError 
 } from "../../src/redux/slices/donationSlice";
 import { useToastHelpers } from "../../src/components/providers/ToastProvider";
+import { useAuth } from "../../src/contexts/AuthContext";
+import { isAuthenticated } from "../../src/utils/tokenManager";
 
 interface DonationFormData {
   // Donor Information
@@ -116,6 +119,9 @@ export default function Donation() {
   const donationError = useAppSelector((state) => state.donation?.error || null);
   const paymentError = useAppSelector((state) => (state.donation as any)?.paymentError || null);
   const { showSuccessToast, showErrorToast } = useToastHelpers();
+  
+  // Authentication
+  const { user, isAuthenticated: userIsAuthenticated } = useAuth();
 
   // Component state
   const [activeTab, setActiveTab] = useState("donate");
@@ -123,29 +129,30 @@ export default function Donation() {
   const [isCustomAmount, setIsCustomAmount] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [completedDonation, setCompletedDonation] = useState<any | null>(null);
+  const [showAuthRequiredDialog, setShowAuthRequiredDialog] = useState(false);
 
   const [formData, setFormData] = useState<DonationFormData>({
-    // Donor Information
-    donorName: "",
-    donorEmail: "",
-    donorPhone: "",
+    // Donor Information - Initialize with user data if authenticated
+    donorName: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : "",
+    donorEmail: user?.email || "",
+    donorPhone: user?.phone || "",
     donorAddress: {
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      country: "United States"
+      street: user?.address?.street || "",
+      city: user?.address?.city || "",
+      state: user?.address?.state || "",
+      zipCode: user?.address?.zipCode || "",
+      country: user?.address?.country || "India"
     },
     
     // Donation Details
     amount: 0,
     customAmount: "",
-    currency: "USD",
+    currency: "INR",
     donationType: "one-time",
     
     // Payment Information
     paymentMethod: "credit-card",
-    paymentProvider: "stripe",
+    paymentProvider: "razorpay",
     
     // Project/Campaign Information
     designation: "general",
@@ -194,6 +201,25 @@ export default function Donation() {
       }
     };
   }, [dispatch, donationError, paymentError]);
+
+  // Update form data when user data is available
+  useEffect(() => {
+    if (user && userIsAuthenticated) {
+      setFormData(prev => ({
+        ...prev,
+        donorName: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        donorEmail: user.email || '',
+        donorPhone: user.phone || '',
+        donorAddress: {
+          street: user.address?.street || '',
+          city: user.address?.city || '',
+          state: user.address?.state || '',
+          zipCode: user.address?.zipCode || '',
+          country: user.address?.country || 'India'
+        }
+      }));
+    }
+  }, [user, userIsAuthenticated]);
 
   const causes = [
     {
@@ -285,6 +311,12 @@ export default function Donation() {
   };
 
   const handleDonate = async () => {
+    // Check authentication first
+    if (!userIsAuthenticated) {
+      setShowAuthRequiredDialog(true);
+      return;
+    }
+
     if (!selectedAmount || selectedAmount < 100) {
       showErrorToast("Minimum donation amount is ₹100");
       return;
@@ -300,12 +332,12 @@ export default function Donation() {
     console.log("Data processing consent:", formData.donorConsent.dataProcessing);
 
     if (!formData.donorConsent.dataProcessing) {
-      showErrorToast("You must consent to data processing to continue");
+      showErrorToast("Please check the required data processing consent checkbox to continue with your donation");
       return;
     }
 
     try {
-      // Create donation using Redux - backend will generate transaction ID
+      // Use createDonation API which integrates with backend properly
       const donationResult = await dispatch(createDonation({
         donorName: formData.donorName,
         donorEmail: formData.donorEmail,
@@ -328,7 +360,8 @@ export default function Donation() {
         referralSource: formData.referralSource,
         utmSource: formData.utmSource,
         utmMedium: formData.utmMedium,
-        utmCampaign: formData.utmCampaign
+        utmCampaign: formData.utmCampaign,
+        panNumber: formData.panNumber
       })).unwrap();
 
       // Set completed donation for success dialog
@@ -343,6 +376,11 @@ export default function Donation() {
       console.error("Donation failed:", error);
       showErrorToast(error.message || "Donation failed. Please try again.");
     }
+  };
+
+  const handleAuthRequired = () => {
+    setShowAuthRequiredDialog(false);
+    navigate('/login', { state: { from: '/donate' } });
   };
 
   const handleDownloadCertificate = async () => {
@@ -762,16 +800,22 @@ export default function Donation() {
                         <Label className="text-base font-semibold">Communication Preferences</Label>
                         
                         <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-start space-x-2 p-3 border rounded-lg bg-red-50 border-red-200">
                             <Checkbox 
                               id="dataProcessing" 
                               checked={formData.donorConsent.dataProcessing}
                               onCheckedChange={(checked) => handleInputChange("donorConsent.dataProcessing", checked === true)}
                               required
+                              className="mt-1"
                             />
-                            <Label htmlFor="dataProcessing" className="text-sm">
-                              I consent to the processing of my personal data for donation processing *
-                            </Label>
+                            <div className="flex flex-col">
+                              <Label htmlFor="dataProcessing" className="text-sm font-medium text-red-800">
+                                I consent to the processing of my personal data for donation processing *
+                              </Label>
+                              <p className="text-xs text-red-600 mt-1">
+                                This consent is required by law and necessary to process your donation.
+                              </p>
+                            </div>
                           </div>
                           
                           <div className="flex items-center space-x-2">
@@ -900,6 +944,47 @@ export default function Donation() {
                   </div>
                 </div>
               )}
+            </DialogContent>
+          </Dialog>
+
+          {/* Authentication Required Dialog */}
+          <Dialog open={showAuthRequiredDialog} onOpenChange={setShowAuthRequiredDialog}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100">
+                      <AlertCircle className="h-8 w-8 text-yellow-600" />
+                    </div>
+                  </div>
+                  Authentication Required
+                </DialogTitle>
+              </DialogHeader>
+              
+              <div className="space-y-6">
+                <div className="text-center space-y-2">
+                  <p className="text-muted-foreground">
+                    Please log in to your account to make a donation. This helps us:
+                  </p>
+                  <ul className="text-left text-sm text-muted-foreground space-y-1 mt-4">
+                    <li>• Send you donation certificates and receipts</li>
+                    <li>• Track your donation history</li>
+                    <li>• Provide tax-deductible receipts</li>
+                    <li>• Keep you updated on project progress</li>
+                  </ul>
+                </div>
+
+                <div className="space-y-3">
+                  <Button className="w-full" onClick={handleAuthRequired}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Login to Continue
+                  </Button>
+                  
+                  <Button variant="outline" className="w-full" onClick={() => setShowAuthRequiredDialog(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
             </DialogContent>
           </Dialog>
         </div>

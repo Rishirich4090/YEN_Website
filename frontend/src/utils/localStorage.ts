@@ -227,11 +227,26 @@ export const authSession = {
    * Save complete auth session (token + user)
    */
   saveSession: (token: string, user: any, refreshToken?: string): boolean => {
+    console.log('🔄 Saving Auth Session:', { 
+      hasToken: !!token, 
+      hasUser: !!user, 
+      userEmail: user?.email,
+      hasRefreshToken: !!refreshToken 
+    });
+    
     const tokenSaved = tokenStorage.setToken(token);
     const userSaved = userStorage.setUser(user);
     const refreshSaved = refreshToken ? refreshTokenStorage.setRefreshToken(refreshToken) : true;
 
-    return tokenSaved && userSaved && refreshSaved;
+    const allSaved = tokenSaved && userSaved && refreshSaved;
+    console.log('🔄 Auth Session Save Result:', { 
+      tokenSaved, 
+      userSaved, 
+      refreshSaved, 
+      allSaved 
+    });
+
+    return allSaved;
   },
 
   /**
