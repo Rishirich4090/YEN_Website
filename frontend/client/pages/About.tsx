@@ -20,90 +20,91 @@ import {
   CheckCircle,
   TrendingUp,
   Building,
-  Droplets,
+  Network,
   GraduationCap,
+  Lightbulb,
 } from "lucide-react";
 
 export default function About() {
   const values = [
     {
-      icon: Heart,
-      title: "Compassion",
+      icon: Network,
+      title: "Networking",
       description:
-        "We approach every community with empathy and understanding, putting human dignity at the center of everything we do.",
+        "We believe in the power of connections. Building meaningful relationships between entrepreneurs, mentors, and industry leaders.",
     },
     {
       icon: CheckCircle,
-      title: "Transparency",
+      title: "Innovation",
       description:
-        "Open communication and accountability in all our operations, ensuring donors and communities can track our impact.",
+        "Fostering creative thinking and innovative solutions to modern challenges through collaborative entrepreneurship.",
     },
     {
       icon: TrendingUp,
-      title: "Sustainability",
+      title: "Growth",
       description:
-        "Creating long-term solutions that empower communities to become self-sufficient and thrive independently.",
+        "Supporting sustainable business growth and personal development through mentorship, resources, and strategic guidance.",
     },
     {
       icon: Users,
-      title: "Collaboration",
+      title: "Community",
       description:
-        "Working hand-in-hand with local communities, partners, and stakeholders to maximize our collective impact.",
+        "Creating an inclusive community where young entrepreneurs can learn, collaborate, and succeed together.",
     },
   ];
 
   const teamMembers = [
     {
-      name: "Dr. Sarah Mitchell",
-      role: "Founder & Executive Director",
-      bio: "With over 15 years in international development, Sarah founded HopeHands to create sustainable change in underserved communities.",
+      name: "Alex Chen",
+      role: "Founder & CEO",
+      bio: "Serial entrepreneur with 3 successful exits. Alex founded YEN to bridge the gap between ambitious young entrepreneurs and the networks they need to succeed.",
       image: "community",
-      email: "sarah@hopehands.org",
+      email: "alex@yen.org",
       linkedin: "#",
       twitter: "#",
     },
     {
-      name: "James Rodriguez",
-      role: "Co-Founder & Operations Director",
-      bio: "Former engineer turned humanitarian, James oversees our project implementation and ensures technical excellence in all initiatives.",
+      name: "Maya Patel",
+      role: "Co-Founder & Head of Mentorship",
+      bio: "Former venture capitalist turned entrepreneur advocate. Maya oversees our mentorship programs and connects entrepreneurs with industry experts.",
       image: "community",
-      email: "james@hopehands.org",
+      email: "maya@yen.org",
       linkedin: "#",
       twitter: "#",
     },
     {
-      name: "Dr. Amara Okafor",
-      role: "Programs Director",
-      bio: "With a PhD in Public Health, Amara leads our health and education programs across 12 countries with remarkable results.",
+      name: "Jordan Williams",
+      role: "Head of Community & Events",
+      bio: "Community builder passionate about creating meaningful connections. Jordan leads our networking events and digital community platform.",
       image: "community",
-      email: "amara@hopehands.org",
+      email: "jordan@yen.org",
       linkedin: "#",
       twitter: "#",
     },
     {
-      name: "Michael Chen",
-      role: "Technology & Innovation Director",
-      bio: "Michael brings Silicon Valley expertise to humanitarian work, developing innovative solutions for community development.",
+      name: "Dr. Sarah Kim",
+      role: "Head of Innovation Programs",
+      bio: "Former startup accelerator director with a PhD in Business Innovation. Sarah develops our educational content and innovation challenges.",
       image: "community",
-      email: "michael@hopehands.org",
+      email: "sarah@yen.org",
       linkedin: "#",
       twitter: "#",
     },
     {
-      name: "Elena Vasquez",
-      role: "Community Partnerships Manager",
-      bio: "Elena builds strong relationships with local communities and ensures our projects align with actual community needs.",
+      name: "Marcus Johnson",
+      role: "Head of Strategic Partnerships",
+      bio: "Former corporate strategist who builds bridges between YEN members and established businesses, investors, and industry leaders.",
       image: "community",
-      email: "elena@hopehands.org",
+      email: "marcus@yen.org",
       linkedin: "#",
       twitter: "#",
     },
     {
-      name: "Dr. Ahmed Hassan",
-      role: "Research & Impact Assessment Lead",
-      bio: "Ahmed measures and evaluates the long-term impact of our programs using data-driven methodologies.",
+      name: "Lisa Rodriguez",
+      role: "Head of Technology & Platform",
+      bio: "Tech entrepreneur and software architect who leads the development of our digital platform and community tools.",
       image: "community",
-      email: "ahmed@hopehands.org",
+      email: "lisa@yen.org",
       linkedin: "#",
       twitter: "#",
     },
@@ -111,92 +112,60 @@ export default function About() {
 
   const milestones = [
     {
-      year: "2015",
-      title: "Foundation Established",
-      description:
-        "HopeHands NGO was founded by Dr. Sarah Mitchell and James Rodriguez with a mission to create sustainable change.",
-      impact: "Initial team of 5 members",
-      icon: Building,
-    },
-    {
-      year: "2016",
-      title: "First Water Project",
-      description:
-        "Successfully implemented our first clean water initiative in rural Kenya, serving 500 families.",
-      impact: "500 families gained clean water access",
-      icon: Droplets,
-    },
-    {
-      year: "2017",
-      title: "Education Program Launch",
-      description:
-        "Launched our education initiative, building the first school in Tanzania.",
-      impact: "1 school built, 200 children enrolled",
-      icon: GraduationCap,
-    },
-    {
-      year: "2018",
-      title: "Multi-Country Expansion",
-      description:
-        "Expanded operations to 5 countries across Africa and Southeast Asia.",
-      impact: "5 countries, 2,000 families served",
-      icon: Globe,
-    },
-    {
       year: "2019",
-      title: "Housing Initiative",
+      title: "YEN Foundation",
       description:
-        "Launched affordable housing program for displaced families.",
-      impact: "50 homes built, 250 people housed",
+        "Young Entrepreneur Network was founded by Alex Chen and Maya Patel with a vision to connect young entrepreneurs globally.",
+      impact: "Initial community of 50 entrepreneurs",
       icon: Building,
     },
     {
       year: "2020",
-      title: "COVID-19 Response",
+      title: "First Virtual Summit",
       description:
-        "Pivoted to provide emergency relief and healthcare support during the pandemic.",
-      impact: "10,000 families received aid",
-      icon: Heart,
+        "Launched our flagship annual summit during the pandemic, connecting 500+ young entrepreneurs virtually.",
+      impact: "500+ entrepreneurs, 50 mentors connected",
+      icon: Network,
     },
     {
       year: "2021",
-      title: "Technology Integration",
+      title: "Mentorship Program Launch",
       description:
-        "Introduced mobile health clinics and digital learning platforms.",
-      impact: "5 mobile clinics, 1,000 students online",
-      icon: Target,
-    },
-    {
-      year: "2022",
-      title: "Major Recognition",
-      description:
-        "Received the International Humanitarian Excellence Award for sustainable development.",
-      impact: "Global recognition, $2M in new funding",
-      icon: Award,
-    },
-    {
-      year: "2023",
-      title: "Membership Program",
-      description:
-        "Launched global membership program to engage supporters worldwide.",
-      impact: "500 active members globally",
+        "Introduced our structured mentorship program matching experienced entrepreneurs with emerging ones.",
+      impact: "100 mentor-mentee pairs, 85% success rate",
       icon: Users,
     },
     {
-      year: "2024",
-      title: "25,000 Lives Impact",
+      year: "2022",
+      title: "Global Expansion",
       description:
-        "Reached our milestone of positively impacting 25,000 lives across 12 countries.",
-      impact: "25,000 lives impacted, 150+ projects completed",
-      icon: CheckCircle,
+        "Expanded to 15 countries with local chapters and regional coordinators supporting local entrepreneur ecosystems.",
+      impact: "15 countries, 2,000+ active members",
+      icon: Globe,
+    },
+    {
+      year: "2023",
+      title: "Innovation Challenges",
+      description:
+        "Launched monthly innovation challenges and pitch competitions with real investment opportunities.",
+      impact: "$500K in funding secured for members",
+      icon: Lightbulb,
+    },
+    {
+      year: "2024",
+      title: "Digital Platform 2.0",
+      description:
+        "Launched our comprehensive digital platform with networking tools, resource library, and collaboration features.",
+      impact: "5,000+ platform users, 1,000+ active daily",
+      icon: TrendingUp,
     },
   ];
 
   const stats = [
-    { label: "Years of Service", value: "9+", icon: Calendar },
-    { label: "Countries", value: "12", icon: Globe },
-    { label: "Team Members", value: "50+", icon: Users },
-    { label: "Volunteer Hours", value: "100K+", icon: Heart },
+    { label: "Years Active", value: "5+", icon: Calendar },
+    { label: "Countries", value: "15", icon: Globe },
+    { label: "Active Members", value: "5,000+", icon: Users },
+    { label: "Success Stories", value: "500+", icon: Heart },
   ];
 
   return (
@@ -206,16 +175,16 @@ export default function About() {
         <div className="container">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Badge variant="secondary" className="mb-4">
-              About HopeHands
+              About YEN
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Transforming Lives Through{" "}
-              <span className="text-primary">Sustainable Impact</span>
+              Empowering Young Entrepreneurs Through{" "}
+              <span className="text-primary">Strategic Networking</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Since 2015, we've been dedicated to creating lasting positive
-              change in underserved communities worldwide through education,
-              clean water, housing, and healthcare initiatives.
+              Since 2019, we've been dedicated to connecting ambitious young entrepreneurs 
+              with the networks, mentorship, and resources they need to transform innovative 
+              ideas into successful ventures.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
               {stats.map((stat, index) => {
@@ -251,10 +220,10 @@ export default function About() {
                     <h2 className="text-3xl font-bold">Our Mission</h2>
                   </div>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    To empower underserved communities worldwide by providing
-                    sustainable solutions in education, clean water, housing,
-                    and healthcare, while fostering local leadership and
-                    long-term self-sufficiency.
+                    To empower young entrepreneurs worldwide by providing comprehensive 
+                    networking opportunities, mentorship programs, and collaborative 
+                    platforms that foster innovation, sustainable business growth, and 
+                    economic impact in the digital age.
                   </p>
                 </div>
 
@@ -264,16 +233,17 @@ export default function About() {
                     <h2 className="text-3xl font-bold">Our Vision</h2>
                   </div>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    A world where every community has access to basic human
-                    needs and the tools necessary to create thriving,
-                    sustainable futures for generations to come.
+                    A world where young entrepreneurs have access to the networks, 
+                    resources, and opportunities they need to transform ideas into 
+                    successful ventures that create positive change and drive economic 
+                    growth globally.
                   </p>
                 </div>
               </div>
 
               <Button size="lg" asChild>
                 <Link to="/projects">
-                  See Our Impact
+                  Explore Our Programs
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -282,7 +252,7 @@ export default function About() {
             <div className="relative">
               <NGOImage
                 type="about"
-                alt="HopeHands mission in action"
+                alt="YEN community networking event"
                 className="w-full aspect-square object-cover rounded-2xl"
               />
             </div>
@@ -297,8 +267,8 @@ export default function About() {
             <Badge variant="outline">Our Values</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">What Drives Us</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our core values guide every decision we make and every project we
-              undertake.
+              Our core values guide every connection we facilitate and every 
+              program we develop for young entrepreneurs.
             </p>
           </div>
 
@@ -335,8 +305,9 @@ export default function About() {
             <Badge variant="outline">Our Team</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">Meet the Leaders</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our dedicated team of professionals brings together expertise from
-              diverse fields to drive meaningful change.
+              Our dedicated team of entrepreneurs, business leaders, and innovation 
+              experts brings together diverse expertise to support the next generation 
+              of business leaders.
             </p>
           </div>
 
@@ -397,8 +368,8 @@ export default function About() {
               Milestones & Achievements
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From our humble beginnings to becoming a global force for good,
-              here's our journey of impact.
+              From our founding to becoming a global network for young entrepreneurs, 
+              here's our journey of building connections and fostering innovation.
             </p>
           </div>
 
@@ -455,10 +426,11 @@ export default function About() {
       <section className="py-20">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">Join Our Mission</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Join Our Network</h2>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Become part of our global community of changemakers. Together, we
-              can create an even greater impact in the years to come.
+              Become part of our global community of young entrepreneurs. Together, 
+              we can build the connections that will drive innovation and create 
+              the next generation of successful businesses.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button size="lg" asChild>

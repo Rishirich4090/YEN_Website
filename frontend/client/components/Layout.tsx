@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import HopeHandsLogo from "@/components/HopeHandsLogo";
+import YENLogo from "@/components/YENLogo";
 import {
   Menu,
   X,
@@ -115,7 +115,7 @@ export default function Layout({ children }: LayoutProps) {
             to="/"
             className="flex items-center space-x-2 logo-hover"
           >
-            <HopeHandsLogo size="md" variant="full" />
+            <YENLogo size="md" variant="full" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -329,10 +329,10 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* About */}
             <div className="space-y-3">
-              <HopeHandsLogo size="sm" variant="full" />
+              <YENLogo size="sm" variant="full" />
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Empowering communities through compassionate action and
-                sustainable change. Creating hope, building futures.
+                Empowering young entrepreneurs through networking, mentorship, and
+                collaborative opportunities. Network is the new networth.
               </p>
             </div>
 
@@ -377,15 +377,15 @@ export default function Layout({ children }: LayoutProps) {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-center space-x-2">
                   <span className="w-1 h-1 rounded-full bg-primary"></span>
-                  <span>info@hopehands.org</span>
+                  <span>info@yen.org</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <span className="w-1 h-1 rounded-full bg-primary"></span>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+1 (555) 987-6543</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <span className="w-1 h-1 rounded-full bg-primary"></span>
-                  <span>123 Hope Street, City, State 12345</span>
+                  <span>456 Innovation Hub, Entrepreneur City, EC 67890</span>
                 </li>
               </ul>
             </div>
@@ -416,8 +416,8 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="mt-8 border-t border-primary/20 pt-6 text-center text-sm text-muted-foreground">
             <p>
-              &copy; 2024 HopeHands NGO. All rights reserved. Made with{" "}
-              <span className="text-primary">&hearts;</span> for a better world.
+              &copy; 2024 Young Entrepreneur Network (YEN). All rights reserved. Made with{" "}
+              <span className="text-primary">&hearts;</span> for young entrepreneurs worldwide.
             </p>
           </div>
         </div>

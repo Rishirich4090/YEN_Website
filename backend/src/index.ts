@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import contactRoutes from './routes/contact.js';
 import membershipRoutes from './routes/membership.js';
+import donationRoutes from './routes/donation.js';
 import dummyRoutes from './routes/dummy.js';
 import authRoutes from './routes/auth.js';
 
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Routes
 app.use('/api/contact', contactRoutes);
 app.use('/api/membership', membershipRoutes);
+app.use('/api/donations', donationRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api', dummyRoutes);
 

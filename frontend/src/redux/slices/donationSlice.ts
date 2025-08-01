@@ -42,6 +42,7 @@ export const createDonation = createAsyncThunk<
   'donation/create',
   async (donationData, { rejectWithValue }) => {
     try {
+      console.log("Creating donation with data:", donationData);
       const response = await apiClient.post<Donation>(
         API_URLS.DONATIONS.CREATE, 
         donationData
@@ -49,6 +50,8 @@ export const createDonation = createAsyncThunk<
 
       if (response.success && response.data) {
         toast.success(SUCCESS_MESSAGES.DONATION_CREATED);
+
+        console.log("Donation created successfully:", response.data);
         return response.data;
       } else {
         throw new Error(response.message || 'Failed to create donation');

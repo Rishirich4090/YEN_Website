@@ -53,16 +53,57 @@ import {
 import { useToastHelpers } from "../../src/components/providers/ToastProvider";
 
 interface DonationFormData {
+  // Donor Information
   donorName: string;
-  email: string;
-  phone: string;
-  address: string;
+  donorEmail: string;
+  donorPhone: string;
+  donorAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  
+  // Donation Details
   amount: number;
   customAmount: string;
-  paymentMethod: "card" | "upi" | "netbanking";
-  purpose: string;
-  panNumber: string;
+  currency: string;
+  donationType: "one-time" | "monthly" | "quarterly" | "annual" | "recurring";
+  recurringDetails?: {
+    frequency: "monthly" | "quarterly" | "annual";
+    endDate?: Date;
+  };
+  
+  // Payment Information
+  paymentMethod: "credit-card" | "debit-card" | "paypal" | "bank-transfer" | "cryptocurrency" | "check" | "cash";
+  paymentProvider: "stripe" | "paypal" | "razorpay" | "square" | "manual";
+  
+  // Project/Campaign Information
+  project?: string;
+  campaign?: string;
+  designation: "general" | "specific-project" | "emergency-fund" | "education" | "healthcare" | "environment";
+  
+  // Donor Interaction
+  message: string;
   isAnonymous: boolean;
+  publicDisplay: boolean;
+  donorConsent: {
+    marketing: boolean;
+    updates: boolean;
+    newsletter: boolean;
+    dataProcessing: boolean;
+  };
+  
+  // Tracking and Analytics
+  source: "website" | "mobile-app" | "email-campaign" | "social-media" | "event" | "direct-mail" | "referral";
+  referralSource?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  
+  // Tax Information
+  panNumber?: string;
 }
 
 export default function Donation() {
@@ -84,16 +125,47 @@ export default function Donation() {
   const [completedDonation, setCompletedDonation] = useState<any | null>(null);
 
   const [formData, setFormData] = useState<DonationFormData>({
+    // Donor Information
     donorName: "",
-    email: "",
-    phone: "",
-    address: "",
+    donorEmail: "",
+    donorPhone: "",
+    donorAddress: {
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      country: "United States"
+    },
+    
+    // Donation Details
     amount: 0,
     customAmount: "",
-    paymentMethod: "upi",
-    purpose: "General Support",
-    panNumber: "",
-    isAnonymous: false
+    currency: "USD",
+    donationType: "one-time",
+    
+    // Payment Information
+    paymentMethod: "credit-card",
+    paymentProvider: "stripe",
+    
+    // Project/Campaign Information
+    designation: "general",
+    
+    // Donor Interaction
+    message: "",
+    isAnonymous: false,
+    publicDisplay: true,
+    donorConsent: {
+      marketing: false,
+      updates: true,
+      newsletter: false,
+      dataProcessing: false
+    },
+    
+    // Tracking and Analytics
+    source: "website",
+    
+    // Tax Information (optional)
+    panNumber: ""
   });
 
   // Mock data (will be replaced with Redux selectors)
@@ -180,8 +252,36 @@ export default function Donation() {
     }
   };
 
-  const handleInputChange = (field: keyof DonationFormData, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (field: string, value: string | boolean | object) => {
+    // Support nested fields like 'donorConsent.dataProcessing'
+    if (field.includes('.')) {
+      const [parent, child] = field.split('.');
+      setFormData(prev => {
+        if (parent === 'donorConsent' && typeof prev.donorConsent === 'object') {
+          // Always coerce to boolean for checkboxes
+          let newValue = value;
+          if (typeof value !== 'boolean') {
+            newValue = Boolean(value);
+          }
+          return {
+            ...prev,
+            donorConsent: {
+              ...prev.donorConsent,
+              [child]: newValue
+            }
+          };
+        }
+        return {
+          ...prev,
+          [parent]: {
+            ...(prev[parent as keyof DonationFormData] as object),
+            [child]: value
+          }
+        };
+      });
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
   };
 
   const handleDonate = async () => {
@@ -190,55 +290,54 @@ export default function Donation() {
       return;
     }
 
-    if (!formData.donorName || !formData.email || !formData.phone) {
+    if (!formData.donorName || !formData.donorEmail || !formData.donorPhone) {
       showErrorToast("Please fill in all required fields");
       return;
     }
 
+    // Debug: Log the consent state
+    console.log("Consent state:", formData.donorConsent);
+    console.log("Data processing consent:", formData.donorConsent.dataProcessing);
+
+    if (!formData.donorConsent.dataProcessing) {
+      showErrorToast("You must consent to data processing to continue");
+      return;
+    }
+
     try {
-      // Create donation using Redux
+      // Create donation using Redux - backend will generate transaction ID
       const donationResult = await dispatch(createDonation({
         donorName: formData.donorName,
-        donorEmail: formData.email,
+        donorEmail: formData.donorEmail,
+        donorPhone: formData.donorPhone,
+        donorAddress: formData.donorAddress,
         amount: selectedAmount,
-        currency: "INR",
-        donationType: 'one-time',
+        currency: formData.currency,
+        donationType: formData.donationType,
+        recurringDetails: formData.recurringDetails,
         paymentMethod: formData.paymentMethod,
-        project: formData.purpose,
-        message: "",
-        isAnonymous: formData.isAnonymous
+        paymentProvider: formData.paymentProvider,
+        project: formData.project,
+        campaign: formData.campaign,
+        designation: formData.designation,
+        message: formData.message,
+        isAnonymous: formData.isAnonymous,
+        publicDisplay: formData.publicDisplay,
+        donorConsent: formData.donorConsent,
+        source: formData.source,
+        referralSource: formData.referralSource,
+        utmSource: formData.utmSource,
+        utmMedium: formData.utmMedium,
+        utmCampaign: formData.utmCampaign
       })).unwrap();
 
-      // Initiate payment
-      const paymentResult = await dispatch(initiatePayment({
-        donationId: donationResult._id,
-        amount: selectedAmount,
-        currency: "INR",
-        paymentMethod: formData.paymentMethod
-      })).unwrap();
-
-      // For demo purposes, simulate successful payment
-      // In real implementation, this would be handled by payment gateway callback
-      setTimeout(async () => {
-        try {
-          await dispatch(verifyPayment({
-            donationId: donationResult._id,
-            paymentId: paymentResult.transactionId,
-            status: "success"
-          })).unwrap();
-
-          setCompletedDonation({
-            ...donationResult,
-            paymentStatus: "completed",
-            transactionId: paymentResult.transactionId
-          });
-          setShowSuccessDialog(true);
-          showSuccessToast("Donation completed successfully!");
-        } catch (verifyError) {
-          console.error("Payment verification failed:", verifyError);
-          showErrorToast("Payment verification failed. Please contact support.");
-        }
-      }, 2000);
+      // Set completed donation for success dialog
+      setCompletedDonation({
+        ...donationResult,
+        paymentStatus: "completed"
+      });
+      setShowSuccessDialog(true);
+      showSuccessToast("Donation completed successfully! Certificate sent to your email.");
 
     } catch (error: any) {
       console.error("Donation failed:", error);
@@ -250,23 +349,25 @@ export default function Donation() {
     if (completedDonation) {
       try {
         await dispatch(generateDonationCertificate(completedDonation._id)).unwrap();
-        
-        showSuccessToast("Certificate downloaded successfully!");
+        showSuccessToast("Certificate sent to your email successfully!");
       } catch (error: any) {
         console.error("Certificate generation failed:", error);
-        showErrorToast(error.message || "Failed to generate certificate. Please try again.");
+        showErrorToast(error.message || "Failed to send certificate. Please try again.");
       }
     }
   };
 
   const getPaymentIcon = (method: string) => {
     switch (method) {
-      case "card":
+      case "credit-card":
+      case "debit-card":
         return <CreditCard className="h-4 w-4" />;
-      case "upi":
+      case "paypal":
         return <Smartphone className="h-4 w-4" />;
-      case "netbanking":
+      case "bank-transfer":
         return <Building2 className="h-4 w-4" />;
+      case "cryptocurrency":
+        return <Globe className="h-4 w-4" />;
       default:
         return <CreditCard className="h-4 w-4" />;
     }
@@ -369,7 +470,7 @@ export default function Donation() {
                         <Button 
                           className="w-full" 
                           onClick={() => {
-                            setFormData(prev => ({ ...prev, purpose: cause.name }));
+                            setFormData(prev => ({ ...prev, designation: cause.id as any }));
                             setActiveTab("donate");
                           }}
                         >
@@ -431,14 +532,14 @@ export default function Donation() {
 
                       {/* Purpose Selection */}
                       <div className="space-y-2">
-                        <Label htmlFor="purpose">Donation Purpose</Label>
-                        <Select value={formData.purpose} onValueChange={(value) => handleInputChange("purpose", value)}>
+                        <Label htmlFor="designation">Donation Purpose</Label>
+                        <Select value={formData.designation} onValueChange={(value) => handleInputChange("designation", value)}>
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
                             {causes.map((cause) => (
-                              <SelectItem key={cause.id} value={cause.name}>
+                              <SelectItem key={cause.id} value={cause.id}>
                                 {cause.name}
                               </SelectItem>
                             ))}
@@ -451,27 +552,41 @@ export default function Donation() {
                         <Label className="text-base font-semibold">Payment Method</Label>
                         <RadioGroup 
                           value={formData.paymentMethod} 
-                          onValueChange={(value: "card" | "upi" | "netbanking") => handleInputChange("paymentMethod", value)}
+                          onValueChange={(value: any) => handleInputChange("paymentMethod", value)}
                         >
                           <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="upi" id="upi" />
-                            <Label htmlFor="upi" className="flex items-center space-x-2 cursor-pointer">
-                              <Smartphone className="h-4 w-4" />
-                              <span>UPI Payment</span>
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="card" id="card" />
-                            <Label htmlFor="card" className="flex items-center space-x-2 cursor-pointer">
+                            <RadioGroupItem value="credit-card" id="credit-card" />
+                            <Label htmlFor="credit-card" className="flex items-center space-x-2 cursor-pointer">
                               <CreditCard className="h-4 w-4" />
-                              <span>Credit/Debit Card</span>
+                              <span>Credit Card</span>
                             </Label>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="netbanking" id="netbanking" />
-                            <Label htmlFor="netbanking" className="flex items-center space-x-2 cursor-pointer">
+                            <RadioGroupItem value="debit-card" id="debit-card" />
+                            <Label htmlFor="debit-card" className="flex items-center space-x-2 cursor-pointer">
+                              <CreditCard className="h-4 w-4" />
+                              <span>Debit Card</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="paypal" id="paypal" />
+                            <Label htmlFor="paypal" className="flex items-center space-x-2 cursor-pointer">
+                              <Smartphone className="h-4 w-4" />
+                              <span>PayPal</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="bank-transfer" id="bank-transfer" />
+                            <Label htmlFor="bank-transfer" className="flex items-center space-x-2 cursor-pointer">
                               <Building2 className="h-4 w-4" />
-                              <span>Net Banking</span>
+                              <span>Bank Transfer</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="cryptocurrency" id="cryptocurrency" />
+                            <Label htmlFor="cryptocurrency" className="flex items-center space-x-2 cursor-pointer">
+                              <Globe className="h-4 w-4" />
+                              <span>Cryptocurrency</span>
                             </Label>
                           </div>
                         </RadioGroup>
@@ -513,14 +628,14 @@ export default function Donation() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address *</Label>
+                        <Label htmlFor="donorEmail">Email Address *</Label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
-                            id="email"
+                            id="donorEmail"
                             type="email"
-                            value={formData.email}
-                            onChange={(e) => handleInputChange("email", e.target.value)}
+                            value={formData.donorEmail}
+                            onChange={(e) => handleInputChange("donorEmail", e.target.value)}
                             placeholder="Enter your email"
                             className="pl-10"
                             required
@@ -529,13 +644,13 @@ export default function Donation() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number *</Label>
+                        <Label htmlFor="donorPhone">Phone Number *</Label>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
-                            id="phone"
-                            value={formData.phone}
-                            onChange={(e) => handleInputChange("phone", e.target.value)}
+                            id="donorPhone"
+                            value={formData.donorPhone}
+                            onChange={(e) => handleInputChange("donorPhone", e.target.value)}
                             placeholder="+91 9876543210"
                             className="pl-10"
                             required
@@ -543,17 +658,40 @@ export default function Donation() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="address">Address</Label>
-                        <div className="relative">
-                          <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Textarea
-                            id="address"
-                            value={formData.address}
-                            onChange={(e) => handleInputChange("address", e.target.value)}
-                            placeholder="Enter your address"
-                            className="pl-10"
-                            rows={3}
+                      <div className="space-y-4">
+                        <Label>Address</Label>
+                        
+                        <div className="space-y-2">
+                          <Input
+                            placeholder="Street Address"
+                            value={formData.donorAddress?.street || ""}
+                            onChange={(e) => handleInputChange("donorAddress.street", e.target.value)}
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-2">
+                          <Input
+                            placeholder="City"
+                            value={formData.donorAddress?.city || ""}
+                            onChange={(e) => handleInputChange("donorAddress.city", e.target.value)}
+                          />
+                          <Input
+                            placeholder="State"
+                            value={formData.donorAddress?.state || ""}
+                            onChange={(e) => handleInputChange("donorAddress.state", e.target.value)}
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-2">
+                          <Input
+                            placeholder="ZIP Code"
+                            value={formData.donorAddress?.zipCode || ""}
+                            onChange={(e) => handleInputChange("donorAddress.zipCode", e.target.value)}
+                          />
+                          <Input
+                            placeholder="Country"
+                            value={formData.donorAddress?.country || "United States"}
+                            onChange={(e) => handleInputChange("donorAddress.country", e.target.value)}
                           />
                         </div>
                       </div>
@@ -570,6 +708,117 @@ export default function Donation() {
                         <p className="text-xs text-muted-foreground">
                           Required for tax benefits under Section 80G
                         </p>
+                      </div>
+
+                      {/* Message Field */}
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Message (Optional)</Label>
+                        <Textarea
+                          id="message"
+                          value={formData.message}
+                          onChange={(e) => handleInputChange("message", e.target.value)}
+                          placeholder="Share a message with your donation..."
+                          rows={3}
+                          maxLength={1000}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          {formData.message?.length || 0}/1000 characters
+                        </p>
+                      </div>
+
+                      {/* Donation Type Selection */}
+                      <div className="space-y-3">
+                        <Label className="text-base font-semibold">Donation Type</Label>
+                        <RadioGroup 
+                          value={formData.donationType} 
+                          onValueChange={(value: any) => handleInputChange("donationType", value)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="one-time" id="one-time" />
+                            <Label htmlFor="one-time" className="cursor-pointer">One-time Donation</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="monthly" id="monthly" />
+                            <Label htmlFor="monthly" className="cursor-pointer">Monthly Recurring</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="quarterly" id="quarterly" />
+                            <Label htmlFor="quarterly" className="cursor-pointer">Quarterly Recurring</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="annual" id="annual" />
+                            <Label htmlFor="annual" className="cursor-pointer">Annual Recurring</Label>
+                          </div>
+
+                           <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="recurring" id="recurring" />
+                            <Label htmlFor="recurring" className="cursor-pointer">Recurring Donation</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
+                      {/* Consent Checkboxes */}
+                      <div className="space-y-3">
+                        <Label className="text-base font-semibold">Communication Preferences</Label>
+                        
+                        <div className="space-y-2">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="dataProcessing" 
+                              checked={formData.donorConsent.dataProcessing}
+                              onCheckedChange={(checked) => handleInputChange("donorConsent.dataProcessing", checked === true)}
+                              required
+                            />
+                            <Label htmlFor="dataProcessing" className="text-sm">
+                              I consent to the processing of my personal data for donation processing *
+                            </Label>
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="updates" 
+                              checked={formData.donorConsent.updates}
+                              onCheckedChange={(checked) => handleInputChange("donorConsent.updates", checked === true)}
+                            />
+                            <Label htmlFor="updates" className="text-sm">
+                              Send me updates about project progress
+                            </Label>
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="newsletter" 
+                              checked={formData.donorConsent.newsletter}
+                              onCheckedChange={(checked) => handleInputChange("donorConsent.newsletter", checked === true)}
+                            />
+                            <Label htmlFor="newsletter" className="text-sm">
+                              Subscribe to our newsletter
+                            </Label>
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="marketing" 
+                              checked={formData.donorConsent.marketing}
+                              onCheckedChange={(checked) => handleInputChange("donorConsent.marketing", checked === true)}
+                            />
+                            <Label htmlFor="marketing" className="text-sm">
+                              Send me marketing communications about events and campaigns
+                            </Label>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Public Display Option */}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="publicDisplay" 
+                          checked={formData.publicDisplay}
+                          onCheckedChange={(checked) => handleInputChange("publicDisplay", checked === true)}
+                        />
+                        <Label htmlFor="publicDisplay" className="text-sm">
+                          Display my name on the public donor wall (unless anonymous)
+                        </Label>
                       </div>
 
                       {/* Security Notice */}
@@ -632,38 +881,18 @@ export default function Donation() {
                       {formatAmount(completedDonation.amount)}
                     </p>
                     <p className="text-muted-foreground">
-                      Donation ID: {completedDonation.id}
+                      Transaction ID: {completedDonation.transactionId}
+                    </p>
+                    <p className="text-sm text-green-600">
+                      ✅ Certificate sent to {completedDonation.donorEmail}
                     </p>
                   </div>
-
-                  {completedDonation.memberAccountCreated && (
-                    <div className="p-4 bg-ngo-pink-light border border-ngo-pink rounded-lg">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <UserPlus className="h-5 w-5 text-ngo-purple" />
-                        <span className="font-semibold text-ngo-purple">Member Account Created!</span>
-                      </div>
-                      <div className="space-y-2 text-sm">
-                        <p><strong>Member ID:</strong> {completedDonation.memberId}</p>
-                        <p><strong>Password:</strong> {completedDonation.memberPassword}</p>
-                        <p className="text-ngo-purple-light">
-                          You can now login to connect with other members!
-                        </p>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="space-y-3">
                     <Button className="w-full" onClick={handleDownloadCertificate}>
                       <Download className="mr-2 h-4 w-4" />
-                      Download Donation Certificate
+                      Resend Certificate to Email
                     </Button>
-                    
-                    {completedDonation.memberAccountCreated && (
-                      <Button variant="outline" className="w-full" onClick={() => navigate("/login")}>
-                        <User className="mr-2 h-4 w-4" />
-                        Login to Member Area
-                      </Button>
-                    )}
                     
                     <Button variant="outline" className="w-full" onClick={() => setShowSuccessDialog(false)}>
                       Close

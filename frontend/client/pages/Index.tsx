@@ -14,68 +14,68 @@ import {
   Star,
   Quote,
   BookOpen,
-  Droplets,
-  Home,
-  GraduationCap,
+  Network,
+  Lightbulb,
+  TrendingUp,
 } from "lucide-react";
 
 export default function Index() {
   const stats = [
-    { label: "Lives Impacted", value: "25,000+", icon: Users },
-    { label: "Projects Completed", value: "150+", icon: Target },
-    { label: "Countries Reached", value: "12", icon: Globe },
-    { label: "Active Members", value: "500+", icon: Heart },
+    { label: "Entrepreneurs Connected", value: "5,000+", icon: Users },
+    { label: "Programs Delivered", value: "50+", icon: Target },
+    { label: "Countries Reached", value: "15", icon: Globe },
+    { label: "Success Stories", value: "500+", icon: Heart },
   ];
 
   const projects = [
     {
-      title: "Clean Water Initiative",
-      description: "Providing clean drinking water to rural communities",
-      impact: "5,000 families served",
+      title: "Networking Meetups",
+      description: "Monthly in-person and virtual networking events for young entrepreneurs",
+      impact: "500+ connections made",
       image: "/placeholder.svg",
-      category: "Water",
-      icon: Droplets,
+      category: "Networking",
+      icon: Network,
     },
     {
-      title: "Education for All",
-      description: "Building schools and providing educational resources",
-      impact: "15 schools built",
+      title: "Mentorship Program",
+      description: "One-on-one mentoring with successful entrepreneurs and industry experts",
+      impact: "200+ mentorships active",
       image: "/placeholder.svg",
-      category: "Education",
-      icon: GraduationCap,
+      category: "Mentorship",
+      icon: Users,
     },
     {
-      title: "Housing Project",
-      description: "Constructing affordable homes for displaced families",
-      impact: "200 homes built",
+      title: "Innovation Challenges",
+      description: "Monthly pitch competitions and innovation challenges with real prizes",
+      impact: "$500K in funding secured",
       image: "/placeholder.svg",
-      category: "Housing",
-      icon: Home,
+      category: "Innovation",
+      icon: Lightbulb,
     },
   ];
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Community Leader",
+      name: "Alex Rodriguez",
+      role: "Startup Founder",
       content:
-        "HopeHands transformed our village with their clean water project. The impact has been life-changing for thousands of families.",
+        "YEN connected me with my co-founder and our first investor. The network is incredibly valuable for any young entrepreneur.",
       rating: 5,
       image: "/placeholder.svg",
     },
     {
-      name: "Michael Chen",
-      role: "Volunteer Member",
+      name: "Sarah Kim",
+      role: "Tech Entrepreneur",
       content:
-        "Being part of HopeHands has been incredibly rewarding. Together, we're making a real difference in communities worldwide.",
+        "The mentorship program at YEN has been game-changing. My mentor helped me scale my business from idea to $1M revenue.",
       rating: 5,
       image: "/placeholder.svg",
     },
     {
-      name: "Dr. Amara Okafor",
-      role: "Project Coordinator",
+      name: "Marcus Chen",
+      role: "E-commerce Founder",
       content:
-        "The dedication and professionalism of HopeHands is outstanding. Every project is executed with care and transparency.",
+        "YEN's innovation challenges pushed me to think bigger. I won funding and gained invaluable feedback from industry experts.",
       rating: 5,
       image: "/placeholder.svg",
     },
@@ -84,23 +84,23 @@ export default function Index() {
   const howToJoin = [
     {
       step: "1",
-      title: "Apply for Membership",
+      title: "Submit Application",
       description:
-        "Fill out our membership form with your details and motivation",
+        "Fill out our membership form with your entrepreneurial background and goals",
       icon: BookOpen,
     },
     {
       step: "2",
-      title: "Approval Process",
+      title: "Community Review",
       description:
-        "Our admin team reviews your application within 3-5 business days",
+        "Our team reviews your application and invites you to a brief interview",
       icon: CheckCircle,
     },
     {
       step: "3",
-      title: "Welcome to the Team",
+      title: "Welcome to YEN",
       description:
-        "Access your dashboard, get your certificate, and start making an impact",
+        "Access our platform, attend events, connect with mentors, and start building your network",
       icon: Heart,
     },
   ];
@@ -115,16 +115,16 @@ export default function Index() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <Badge variant="secondary" className="w-fit">
-                  Making a Global Impact
+                  Empowering Young Entrepreneurs
                 </Badge>
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                  Empowering Communities Through{" "}
-                  <span className="text-primary">Compassionate Action</span>
+                  Network is the new{" "}
+                  <span className="text-primary">Networth</span>
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  Join HopeHands in creating sustainable change across the
-                  globe. Together, we build better futures through education,
-                  clean water, housing, and community development.
+                  Join YEN (Young Entrepreneur Network) to connect with like-minded 
+                  entrepreneurs, access world-class mentorship, and build the 
+                  relationships that will transform your business ideas into reality.
                 </p>
               </div>
 
@@ -136,7 +136,7 @@ export default function Index() {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/projects">View Our Projects</Link>
+                  <Link to="/projects">View Our Programs</Link>
                 </Button>
               </div>
 
@@ -167,19 +167,19 @@ export default function Index() {
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 p-8">
                 <NGOImage
                   type="hero"
-                  alt="HopeHands community impact"
+                  alt="YEN young entrepreneurs networking"
                   className="w-full h-full object-cover rounded-xl"
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-background border rounded-xl p-4 shadow-lg">
                 <div className="flex items-center space-x-3">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-                    <Heart className="h-4 w-4 text-primary-foreground" />
+                    <Network className="h-4 w-4 text-primary-foreground" />
                   </div>
                   <div>
-                    <div className="font-semibold">25,000+</div>
+                    <div className="font-semibold">5,000+</div>
                     <div className="text-sm text-muted-foreground">
-                      Lives Changed
+                      Entrepreneurs Connected
                     </div>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function Index() {
             <div>
               <NGOImage
                 type="about"
-                alt="About HopeHands"
+                alt="About YEN - Young Entrepreneur Network"
                 className="w-full aspect-video object-cover rounded-xl"
               />
             </div>
@@ -204,13 +204,12 @@ export default function Index() {
               <div className="space-y-4">
                 <Badge variant="outline">Our Mission</Badge>
                 <h2 className="text-3xl md:text-4xl font-bold">
-                  Building Hope, One Community at a Time
+                  Building Networks, Creating Success
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Founded in 2015, HopeHands is dedicated to creating lasting
-                  positive change in underserved communities worldwide. We
-                  believe in the power of collective action and sustainable
-                  development.
+                  Founded in 2019, YEN (Young Entrepreneur Network) is dedicated to 
+                  empowering the next generation of business leaders through strategic 
+                  networking, mentorship, and collaborative opportunities.
                 </p>
               </div>
 
@@ -218,30 +217,30 @@ export default function Index() {
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Transparent Operations</h3>
+                    <h3 className="font-semibold">Global Network Access</h3>
                     <p className="text-muted-foreground">
-                      Every donation and project is tracked with full
-                      transparency and regular reporting.
+                      Connect with 5,000+ young entrepreneurs across 15 countries 
+                      and build valuable business relationships.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Community-Driven Approach</h3>
+                    <h3 className="font-semibold">Expert Mentorship</h3>
                     <p className="text-muted-foreground">
-                      We work directly with local communities to identify and
-                      address their most pressing needs.
+                      Get paired with successful entrepreneurs and industry leaders 
+                      who provide personalized guidance and support.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Sustainable Impact</h3>
+                    <h3 className="font-semibold">Real Investment Opportunities</h3>
                     <p className="text-muted-foreground">
-                      Our projects are designed for long-term sustainability and
-                      community ownership.
+                      Participate in pitch competitions and innovation challenges 
+                      with access to real funding opportunities.
                     </p>
                   </div>
                 </div>
@@ -263,10 +262,10 @@ export default function Index() {
         <div className="container">
           <div className="text-center space-y-4 mb-12">
             <Badge variant="outline">Our Impact</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Current Projects</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Current Programs</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover how we're making a difference in communities around the
-              world through our ongoing initiatives.
+              Discover how we're empowering young entrepreneurs through our 
+              innovative programs and networking opportunities.
             </p>
           </div>
 
@@ -316,7 +315,7 @@ export default function Index() {
           <div className="text-center mt-12">
             <Button size="lg" asChild>
               <Link to="/projects">
-                View All Projects
+                View All Programs
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -325,53 +324,27 @@ export default function Index() {
       </section>
 
       {/* How to Join Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container">
-          <div className="text-center space-y-4 mb-12">
-            <Badge variant="outline">Join Our Mission</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              How to Become a Member
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Joining HopeHands is simple. Follow these steps to become part of
-              our global community of changemakers.
-            </p>
+              <section className="py-16 md:py-24 bg-gradient-to-br from-purple-50 to-pink-50">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Ready to Build Your Network?
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+                Join thousands of entrepreneurs who are building valuable connections 
+                and scaling their businesses through our network.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                  Become a Member
+                </Button>
+                <Button size="lg" variant="outline">
+                  Explore Our Programs
+                </Button>
+              </div>
+            </div>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {howToJoin.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div key={index} className="text-center space-y-4">
-                  <div className="flex justify-center">
-                    <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-                        <Icon className="h-8 w-8 text-primary-foreground" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-sm font-bold">
-                        {step.step}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-semibold">{step.title}</h3>
-                    <p className="text-muted-foreground">{step.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button size="lg" asChild>
-              <Link to="/membership">
-                Start Your Application
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
 
       {/* Testimonials Section */}
       <section className="py-20">
@@ -379,11 +352,11 @@ export default function Index() {
           <div className="text-center space-y-4 mb-12">
             <Badge variant="outline">What People Say</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">
-              Member Testimonials
+              Entrepreneur Success Stories
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Hear from our community members about the impact we're creating
-              together.
+              Hear from our community members about how YEN has accelerated 
+              their entrepreneurial journey.
             </p>
           </div>
 
